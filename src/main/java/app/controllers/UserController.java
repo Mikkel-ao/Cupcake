@@ -25,7 +25,9 @@ public class UserController {
         try {
             User user = UserMapper.login(username, password, connectionPool);
 
-            ctx.sessionAttribute("currentUser", user);
+            ctx.sessionAttribute("currentUser",user.getUser_id());
+            ctx.sessionAttribute("userId", user.getUser_id());
+            ctx.sessionAttribute("role", user.getRole());
             ctx.redirect("/index");
         } catch (DatabaseException e) {
             ctx.attribute("message", "Login failed. Please try again.");
