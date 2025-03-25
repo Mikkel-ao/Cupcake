@@ -8,13 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import app.persistence.ConnectionPool;
 
 public class UserMapper {
 
 
     // Authenticates the user by verifying username and password from the database
-    public static User login(String password, String email,  ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "select * from users where email=? and password_hash=?";
+    public static User login(String password, String email, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "select * from users where email=? and password=?";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -25,8 +26,10 @@ public class UserMapper {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int id = rs.getInt("user_id");
-                return new User(id, password, email);
+                int user_id = rs.getInt("user_id");
+                String role = rs.getString("role");
+                double balance = rs.getDouble("balance");
+                return new User(user_id, password, email, role, balance);
             } else {
                 throw new DatabaseException("Fejl i login. Prøv igen");
             }
@@ -36,15 +39,15 @@ public class UserMapper {
     }
 
     // Creates a new user by inserting username and password into the database
-    public static void createUser(String password, String email ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "insert into users (password_hash, email) values (?,?)";
+    public static void createUser(String password, String email, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "insert into users (password, email) values (?,?)";
 
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
         ) {
-            ps.setString(1, password);
-            ps.setString(2, email);
+            ps.setString(1, email);
+            ps.setString(2, password);
 
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected != 1) {
