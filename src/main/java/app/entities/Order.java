@@ -1,42 +1,43 @@
 package app.entities;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class Order {
-    private int order_id;
-    private int user_id;
-    private LocalDateTime order_date;
 
-    public Order(int order_id, int user_id, LocalDateTime order_date) {
-        this.order_id = order_id;
-        this.user_id = user_id;
-        this.order_date = order_date;
+    private int id;
+    private int userId;
+    private Timestamp timestamp;
+
+    public Order(int id, int userId, Timestamp timestamp) {
+        this.id = id;
+        this.userId = userId;
+        this.timestamp = timestamp;
     }
 
-    public Order(LocalDateTime order_date, int user_id) {
-        this.user_id = user_id;
-        this.order_date = order_date;
+    public Order(int userId, Timestamp timestamp) {
+        this.userId = userId;
+        this.timestamp = timestamp;
     }
 
-    public int getOrder_id() {
-        return order_id;
+
+    public int getId() {
+        return id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public LocalDateTime getOrder_date() {
-        return order_date;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "order_id=" + order_id +
-                ", user_id=" + user_id +
-                ", order_date=" + order_date +
+                "id=" + id +
+                ", userId=" + userId +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

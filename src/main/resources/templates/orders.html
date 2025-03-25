@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Orders</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<form class="generic-form" method="post">
+    <table class="order-table">
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Email</th>
+            <th>Bottom Flavor</th>
+            <th>Top Flavor</th>
+            <th>Order Date</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orderList}">
+            <td th:text="${order.orderId}"></td>
+            <td th:text="${order.email}"></td>
+            <td th:text="${order.bottomFlavor}"></td>
+            <td th:text="${order.topFlavor}"></td>
+            <td th:text="${order.orderDate}"></td>
+            <td th:text="${order.price}"></td>
+            <td th:text="${order.quantity}"></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>
