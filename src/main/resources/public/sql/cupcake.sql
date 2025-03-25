@@ -5,7 +5,7 @@ CREATE TABLE users (
                        password VARCHAR(255) NOT NULL, -- Hashed passwords
                        email VARCHAR(100) UNIQUE NOT NULL,
                        role VARCHAR(10) DEFAULT 'customer', -- 'customer' or 'admin'
-                       balance DECIMAL(8, 2) NOT NULL
+                       balance DECIMAL(8, 2) DEFAULT 200.00
 );
 
 -- Create CupcakeBottoms table
