@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import app.persistence.ConnectionPool;
 
 public class UserMapper {
 
@@ -36,7 +37,7 @@ public class UserMapper {
     }
 
     // Creates a new user by inserting username and password into the database
-    public static void createUser(String password, String email ConnectionPool connectionPool) throws DatabaseException {
+    public static void createUser(String password, String email, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "insert into users (password_hash, email) values (?,?)";
 
         try (

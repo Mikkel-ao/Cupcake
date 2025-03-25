@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>FourThingsPlus</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
+<head>
+    <meta charset="UTF-8">
+    <title>create-user</title>
+</head>
+<body>
+
+<div class="page-container">
+    <header Dette er min header>
+        <a href="index.html" th:href="@{/}">
+            <img class="logo" src="../public/images/cupcakelogo.png" th:src="@{/images/cupcakelogo.png}"
+                 alt="Cup cake logo"></a>
+    </header>
+
+    <h1>Here you can create a profile</h1>
+    <main Dette er min main>
+        <form class="generic-form" method="post">
+            <input type="text" name="username" placeholder="Enter username"/>
+            <input type="password" name="password1" placeholder=" Enter password"/>
+            <input type="password" name="password2" placeholder=" Enter password again"/>
+
+            <button type="submit" formaction="/createuser">Create profile</button>
+
+            <div><p th:text="${message}"></p></div>
+        </form>
+    </main>
+
+    <footer Dette er min footer>
+        <div>
+            <a href="index.html" th:href="@{/}" class="text-silver"> Back to login page </a>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>
