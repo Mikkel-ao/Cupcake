@@ -8,10 +8,10 @@ VALUES
 -- Insert sample cupcake bottoms
 INSERT INTO cupcake_bottoms (bottom_name, price)
 VALUES
-    ('Chocplate', 5.00),
+    ('Chocolate', 5.00),
     ('Vanilla', 5.00),
     ('Nutmeg', 2.00),
-    ('Pistacio', 6.00),
+    ('Pistachio', 6.00),
     ('Almond', 7.00);
 
 -- Insert sample cupcake toppings
