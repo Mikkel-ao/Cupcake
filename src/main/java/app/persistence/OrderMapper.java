@@ -171,11 +171,11 @@ public class OrderMapper {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, item.getOrder_id());
-            ps.setInt(2, item.getBottom_id());
-            ps.setInt(3, item.getTopping_id());
+            ps.setInt(1, item.getOrderId());
+            ps.setInt(2, item.getBottomId());
+            ps.setInt(3, item.getToppingId());
             ps.setInt(4, item.getQuantity());
-            ps.setDouble(5, item.getCupcake_price());
+            ps.setDouble(5, item.getCupcakePrice());
 
             ps.executeUpdate();
         } catch (SQLException e) {
