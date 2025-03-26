@@ -13,6 +13,7 @@
         <button type="submit">Login</button>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
+
     <footer>
         <div class="create-user-form">
             <a href="createuser.html" th:href="@{/createuser}">Create User</a>

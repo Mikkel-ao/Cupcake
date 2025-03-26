@@ -180,5 +180,4 @@ public class OrderController {
             ctx.status(500).result("An error occurred while fetching orders: " + e.getMessage());
         }
     }
-
 }
