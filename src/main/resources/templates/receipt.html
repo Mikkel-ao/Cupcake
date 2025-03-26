@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Your Basket</title>
+    <title>Receipt</title>
 </head>
 <body>
-<h1>Your Basket</h1>
+<h1>Kvittering</h1>
+<h2>Tak for at handle hos Olsker!</h2>
+<p>Ordrer ID: <span th:text="${orderId}"></span></p>
 <ul>
-    <li th:each="item : ${basket}">
+    <li th:each="item : ${orderDetails}">
         <span th:text="'Bottom: ' + ${item.bottomName}"></span> -
         <span th:text="'Topping: ' + ${item.toppingName}"></span> -
         <span th:text="'Quantity: ' + ${item.quantity}"></span> -
-        <span th:text="'Price: ' + ${item.price}"></span>
+        <span th:text="'Price: $' + ${item.price}"></span>
     </li>
 </ul>
 <a href="/" th:href="@{/}">
-    <button>Back</button>
+    <button>Tilbage til forsiden</button>
 </a>
-<form method="post">
-    <button type="submit" formaction="/checkout" th:formaction="@{/checkout}">
-        Buy
-    </button>
-</form>
 </body>
 </html>

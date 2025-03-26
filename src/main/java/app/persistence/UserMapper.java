@@ -62,4 +62,41 @@ public class UserMapper {
         }
     }
 
+    public static double getUserBalance(ConnectionPool connectionPool, int userId) throws DatabaseException {
+        String sql = "SELECT balance FROM users WHERE user_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getDouble("balance");
+            } else {
+                throw new DatabaseException("User not found for ID: " + userId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve user balance: " + e.getMessage());
+        }
+    }
+
+    public static void updateUserBalance(ConnectionPool connectionPool, int userId, double newBalance) throws DatabaseException {
+        String sql = "UPDATE users SET balance = ? WHERE user_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setDouble(1, newBalance);
+            ps.setInt(2, userId);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new DatabaseException("Failed to update balance for user ID: " + userId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to update user balance: " + e.getMessage());
+        }
+    }
+
 }

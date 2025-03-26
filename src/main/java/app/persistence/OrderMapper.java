@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.DTO.BasketItemDTO;
 import app.DTO.BasketOrder;
 import app.DTO.UserAndOrderDTO;
 import app.entities.OrderDetails;
@@ -10,6 +11,78 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderMapper {
+
+    public static List<BasketItemDTO> getOrderDetailsByOrderId(ConnectionPool connectionPool, int orderId) throws DatabaseException {
+        String sql = "SELECT bottom_id, topping_id, quantity, cupcake_price FROM order_details WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+
+            List<BasketItemDTO> orderDetailsList = new ArrayList<>();
+            while (rs.next()) {
+                int bottomId = rs.getInt("bottom_id");
+                int toppingId = rs.getInt("topping_id");
+                int quantity = rs.getInt("quantity");
+                double cupcakePrice = rs.getDouble("cupcake_price");
+
+                // Optional: Fetch bottom and topping names based on their IDs (if necessary)
+                String bottomName = getBottomNameById(connectionPool, bottomId);
+                String toppingName = getToppingNameById(connectionPool, toppingId);
+
+                // Create an OrderDetails object with fetched data
+                BasketItemDTO orderDetail = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, cupcakePrice);
+                orderDetailsList.add(orderDetail);
+            }
+
+            return orderDetailsList; // Return the list of order details
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve order details for order ID: " + orderId);
+        }
+    }
+
+    public static String getBottomNameById(ConnectionPool connectionPool, int bottomId) throws DatabaseException {
+        String sql = "SELECT bottom_name FROM cupcake_bottoms WHERE bottom_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, bottomId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("bottom_name");
+            } else {
+                throw new DatabaseException("Bottom not found for ID: " + bottomId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve bottom name: " + e.getMessage());
+        }
+    }
+
+    public static String getToppingNameById(ConnectionPool connectionPool, int toppingId) throws DatabaseException {
+        String sql = "SELECT topping_name FROM cupcake_toppings WHERE topping_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, toppingId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("topping_name");
+            } else {
+                throw new DatabaseException("Topping not found for ID: " + toppingId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve topping name: " + e.getMessage());
+        }
+    }
+
+
+
 
     public static double getToppingPrice(ConnectionPool connectionPool, String toppingName) throws DatabaseException {
         String sql = "SELECT price FROM cupcake_toppings WHERE topping_name = ?";
@@ -112,13 +185,14 @@ public class OrderMapper {
 
 
 
-    public static int createOrder(ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "INSERT INTO orders (order_date) VALUES (?)";
+    public static int createOrder(ConnectionPool connectionPool, int userId) throws DatabaseException {
+        String sql = "INSERT INTO orders (user_id, order_date) VALUES (?, ?)";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            ps.setInt(1, userId);
+            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
