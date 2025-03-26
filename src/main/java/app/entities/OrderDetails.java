@@ -62,4 +62,5 @@ public class OrderDetails {
                 ", cupcake_price=" + cupcakePrice +
                 '}';
     }
+
 }
