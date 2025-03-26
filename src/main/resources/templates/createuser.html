@@ -18,11 +18,11 @@
     </header>
 
     <h1>Here you can create a profile</h1>
-    <main Dette er min main>
+    <main>
         <form class="generic-form" method="post">
-            <input type="text" name="email" placeholder="Enter email"/>
-            <input type="password" name="password1" placeholder=" Enter password"/>
-            <input type="password" name="password2" placeholder=" Enter password again"/>
+            <input type="text" name="email" placeholder="Enter email" required/>
+            <input type="password" name="password1" placeholder=" Enter password" required/>
+            <input type="password" name="password2" placeholder=" Enter password again" required/>
 
             <button type="submit" formaction="/createuser">Create profile</button>
 
@@ -30,9 +30,9 @@
         </form>
     </main>
 
-    <footer Dette er min footer>
+    <footer>
         <div>
-            <a href="login.html" th:href="@{/login}" class="text-silver"> Back to login page </a>
+            <a href="index.html" th:href="@{/index}" class="text-silver"> Back to front page </a>
         </div>
     </footer>
 </div>

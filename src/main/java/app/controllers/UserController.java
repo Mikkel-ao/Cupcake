@@ -16,7 +16,6 @@ public class UserController {
         app.get("/index", ctx -> ctx.render("index.html"));
         app.get("/createuser", ctx -> ctx.render("createuser.html"));
         app.post("/createuser",ctx -> createUser(ctx,connectionPool));
-
     }
     private static void login(Context ctx, ConnectionPool connectionPool) {
         String username = ctx.formParam("email");
@@ -25,8 +24,8 @@ public class UserController {
         try {
             User user = UserMapper.login(username, password, connectionPool);
 
-            ctx.sessionAttribute("currentUser",user.getUser_id());
-            ctx.sessionAttribute("userId", user.getUser_id());
+            ctx.sessionAttribute("currentUser",user.getUserId());
+            ctx.sessionAttribute("userId", user.getUserId());
             ctx.sessionAttribute("role", user.getRole());
             ctx.redirect("/index");
         } catch (DatabaseException e) {

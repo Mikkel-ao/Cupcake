@@ -1,63 +1,63 @@
 package app.entities;
 
 public class OrderDetails {
-    private int order_detail_id;
-    private int order_id;
-    private int bottom_id;
-    private int topping_id;
+    private int orderDetailId;
+    private int orderId;
+    private int bottomId;
+    private int toppingId;
     private int quantity;
-    private double cupcake_price;
+    private double cupcakePrice;
 
-    public OrderDetails(int order_detail_id, int order_id, int bottom_id, int topping_id, int quantity, double cupcake_price) {
-        this.order_detail_id = order_detail_id;
-        this.order_id = order_id;
-        this.bottom_id = bottom_id;
-        this.topping_id = topping_id;
+    public OrderDetails(int orderDetailId, int orderId, int bottomId, int toppingId, int quantity, double cupcakePrice) {
+        this.orderDetailId = orderDetailId;
+        this.orderId = orderId;
+        this.bottomId = bottomId;
+        this.toppingId = toppingId;
         this.quantity = quantity;
-        this.cupcake_price = cupcake_price;
+        this.cupcakePrice = cupcakePrice;
     }
 
-    public OrderDetails(int order_id, int bottom_id, int topping_id, int quantity, double cupcake_price) {
-        this.order_id = order_id;
-        this.bottom_id = bottom_id;
-        this.topping_id = topping_id;
+    public OrderDetails(int orderId, int bottomId, int toppingId, int quantity, double cupcakePrice) {
+        this.orderId = orderId;
+        this.bottomId = bottomId;
+        this.toppingId = toppingId;
         this.quantity = quantity;
-        this.cupcake_price = cupcake_price;
+        this.cupcakePrice = cupcakePrice;
     }
 
-    public int getOrder_detail_id() {
-        return order_detail_id;
+    public int getOrderDetailId() {
+        return orderDetailId;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public int getBottom_id() {
-        return bottom_id;
+    public int getBottomId() {
+        return bottomId;
     }
 
-    public int getTopping_id() {
-        return topping_id;
+    public int getToppingId() {
+        return toppingId;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public double getCupcake_price() {
-        return cupcake_price;
+    public double getCupcakePrice() {
+        return cupcakePrice;
     }
 
     @Override
     public String toString() {
         return "OrderDetails{" +
-                "order_detail_id=" + order_detail_id +
-                ", order_id=" + order_id +
-                ", bottom_id=" + bottom_id +
-                ", topping_id=" + topping_id +
+                "order_detail_id=" + orderDetailId +
+                ", order_id=" + orderId +
+                ", bottom_id=" + bottomId +
+                ", topping_id=" + toppingId +
                 ", quantity=" + quantity +
-                ", cupcake_price=" + cupcake_price +
+                ", cupcake_price=" + cupcakePrice +
                 '}';
     }
 }

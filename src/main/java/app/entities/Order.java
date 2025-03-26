@@ -4,12 +4,12 @@ import java.sql.Timestamp;
 
 public class Order {
 
-    private int id;
+    private int orderId;
     private int userId;
     private Timestamp timestamp;
 
-    public Order(int id, int userId, Timestamp timestamp) {
-        this.id = id;
+    public Order(int orderId, int userId, Timestamp timestamp) {
+        this.orderId = orderId;
         this.userId = userId;
         this.timestamp = timestamp;
     }
@@ -20,8 +20,8 @@ public class Order {
     }
 
 
-    public int getId() {
-        return id;
+    public int getOrderId() {
+        return orderId;
     }
 
     public int getUserId() {
@@ -35,7 +35,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
+                "id=" + orderId +
                 ", userId=" + userId +
                 ", timestamp=" + timestamp +
                 '}';

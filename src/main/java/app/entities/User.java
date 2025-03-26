@@ -1,14 +1,14 @@
 package app.entities;
 
 public class User {
-private int user_id;
+private int userId;
 private String password;
 private String email;
 private String role;
 private double balance;
 
-    public User(int user_id, String password, String email, String role, double balance) {
-        this.user_id = user_id;
+    public User(int userId, String password, String email, String role, double balance) {
+        this.userId = userId;
         this.password = password;
         this.email = email;
         this.role = role;
@@ -22,8 +22,8 @@ private double balance;
         this.balance = balance;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
     public String getPassword() {
@@ -45,7 +45,7 @@ private double balance;
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + user_id +
+                "user_id=" + userId +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +

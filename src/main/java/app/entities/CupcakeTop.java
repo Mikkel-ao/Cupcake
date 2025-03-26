@@ -1,27 +1,27 @@
 package app.entities;
 
 public class CupcakeTop {
-    private int topping_id;
-    private String topping_name;
+    private int toppingId;
+    private String toppingName;
     private double price;
 
-    public CupcakeTop(int topping_id, String topping_name, double price) {
-        this.topping_id = topping_id;
-        this.topping_name = topping_name;
+    public CupcakeTop(int toppingId, String toppingName, double price) {
+        this.toppingId = toppingId;
+        this.toppingName = toppingName;
         this.price = price;
     }
 
-    public CupcakeTop(String topping_name, double price) {
-        this.topping_name = topping_name;
+    public CupcakeTop(String toppingName, double price) {
+        this.toppingName = toppingName;
         this.price = price;
     }
 
-    public int getTopping_id() {
-        return topping_id;
+    public int getToppingId() {
+        return toppingId;
     }
 
-    public String getTopping_name() {
-        return topping_name;
+    public String getToppingName() {
+        return toppingName;
     }
 
     public double getPrice() {
@@ -31,8 +31,8 @@ public class CupcakeTop {
     @Override
     public String toString() {
         return "CupcakeTop{" +
-                "topping_id=" + topping_id +
-                ", topping_name='" + topping_name + '\'' +
+                "topping_id=" + toppingId +
+                ", topping_name='" + toppingName + '\'' +
                 ", price=" + price +
                 '}';
     }

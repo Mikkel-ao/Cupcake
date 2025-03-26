@@ -1,27 +1,27 @@
 package app.entities;
 
 public class CupcakeBottom {
-    private int bottom_id;
-    private String bottom_name;
+    private int bottomId;
+    private String bottomName;
     private double price;
 
-    public CupcakeBottom(int bottom_id, String bottom_name, double price) {
-        this.bottom_id = bottom_id;
-        this.bottom_name = bottom_name;
+    public CupcakeBottom(int bottomId, String bottomName, double price) {
+        this.bottomId = bottomId;
+        this.bottomName = bottomName;
         this.price = price;
     }
 
-    public CupcakeBottom(String bottom_name, double price) {
-        this.bottom_name = bottom_name;
+    public CupcakeBottom(String bottomName, double price) {
+        this.bottomName = bottomName;
         this.price = price;
     }
 
-    public int getBottom_id() {
-        return bottom_id;
+    public int getBottomId() {
+        return bottomId;
     }
 
-    public String getBottom_name() {
-        return bottom_name;
+    public String getBottomName() {
+        return bottomName;
     }
 
     public double getPrice() {
@@ -31,8 +31,8 @@ public class CupcakeBottom {
     @Override
     public String toString() {
         return "CupcakeBottom{" +
-                "bottom_id=" + bottom_id +
-                ", bottom_name='" + bottom_name + '\'' +
+                "bottom_id=" + bottomId +
+                ", bottom_name='" + bottomName + '\'' +
                 ", price=" + price +
                 '}';
     }
