@@ -1,6 +1,6 @@
 /* Stylesheet for the application */
 
-h1,h2, h3 {
+h1 {
     color: #369;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 3rem;
@@ -23,11 +23,9 @@ h1,h2, h3 {
 .order-table tr:nth-child(even){ /*  hver anden række grå*/
     background-color: silver;
 }
-
 body {
     background-color: white;
 }
-
 
 .page-container {
     display: flex;
@@ -99,4 +97,20 @@ body {
     display: block;
 }
 
+/*** Customer page styles ****/
 
+.customer-table{
+    border-collapse: collapse; /* Vi laver border imellem hvert felt senere, og derfor vil der komme dobbelt nogle steder hvis denne ikke er væk */
+    font-size: 1.2rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-width: 400px;
+}
+.customer-table td, .customer-table th{
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.customer-table tr:nth-child(even){ /*  hver anden række grå*/
+    background-color: silver;
+}

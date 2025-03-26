@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<title>Cupcake</title>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<title>Cupcake-login</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
@@ -8,8 +8,8 @@
 <body>
 <div class="page-container">
     <form class="generic-form" method="post" action="/login">
-        <input type="text" name="email" placeholder="Enter email"/>
-        <input type="password" name="password" placeholder="Enter password"/>
+        <input type="text" name="email" placeholder="Enter email" required/>
+        <input type="password" name="password" placeholder="Enter password" required/>
         <button type="submit">Login</button>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
