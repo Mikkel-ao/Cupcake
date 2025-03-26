@@ -6,7 +6,7 @@
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 
-
+<body>
 <header>
     <a href="index.html" th:href="@{/}">
         <img class="logo" src="/public/images/cupcakelogo.png"
@@ -14,6 +14,19 @@
     </a>
     <h1>Olsker Cupcakes</h1>
 </header>
+
+
+<a href="/basket" th:href="@{/basket}">
+    <button>
+        Læg i kurv
+    </button>
+</a>
+
+<a href="/checkout" th:href="@{/checkout}">
+    <button>
+        Basket icon
+    </button>
+</a>
 
 <a href="/orders" th:href="@{/orders}">
     <button>
@@ -27,24 +40,14 @@
     </button>
 </a>
 
-<a href="/login" th:ref="@{/login}">
-    <button>
-        Log ind / Tilmeld
-    </button>
-</a>
-
-<a href="/checkout" th:href="@{/checkout}">
-    <button>Indkøbskurv</button>
-</a>
 
 <h2>Velkommen ombord</h2>
 <p>Øens bedste cupcakes. Vælg og bestil her: </p>
 
 <form action="/add-to-basket" method="post" th:action="@{/add-to-basket}">
-
     <div class="dropdown">
+        <label for="bottom">Vælg bund:</label>
         <select name="bottom" id="bottom" required> <!-- "required" makes it impossible to submit before choosing an option! -->
-            <option value="" disabled selected>Vælg bund</option> <!-- Default option -->
             <option value="Chocolate">Chocolate</option>
             <option value="Vanilla">Vanilla</option>
             <option value="Nutmeg">Nutmeg</option>
@@ -52,8 +55,8 @@
     </div>
 
     <div class="dropdown">
+        <label for="topping">Vælg topping:</label>
         <select name="topping" id="topping" required>
-            <option value="" disabled selected>Vælg topping</option> <!-- Default option -->
             <option value="Chocolate">Chocolate</option>
             <option value="Blueberry">Blueberry</option>
             <option value="Raspberry">Raspberry</option>
@@ -61,8 +64,8 @@
     </div>
 
     <div class="dropdown">
+        <label for="quantity">Vælg antal:</label>
         <select name="quantity" id="quantity" required>
-            <option value="" disabled selected>Vælg antal</option> <!-- Default option -->
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -72,15 +75,10 @@
     <button type="submit">Læg i kurv</button>
 </form>
 
+<a href="/checkout" th:href="@{/checkout}">
+    <button>Se kurv</button>
+</a>
 
-<div >
-
-    <a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}"> Log out </a>
-    <span th:if="${session.currentUser != null}"> </span>
-</div>
 
 </body>
 </html>
-
-
-
