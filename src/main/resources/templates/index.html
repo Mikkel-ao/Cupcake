@@ -15,29 +15,20 @@
     <h1>Olsker Cupcakes</h1>
 </header>
 
+<a href="/orders" th:href="@{/orders}">
+    <button>Ordrer</button>
+</a>
 
-<a href="/basket" th:href="@{/basket}">
-    <button>
-        Læg i kurv
-    </button>
+<a href="/customer" th:href="@{/customer}">
+    <button>Kunder</button>
+</a>
+
+<a href="/login" th:href="@{/login}">
+    <button>Log ind / Tilmeld</button>
 </a>
 
 <a href="/checkout" th:href="@{/checkout}">
-    <button>
-        Basket icon
-    </button>
-</a>
-
-<a href="/orders" th:href="@{/orders}">
-    <button>
-        Ordrer
-    </button>
-</a>
-
-<a href="/orders" th:href="@{/customers}">
-    <button>
-        Kunder
-    </button>
+    <button>Indkøbskurv</button>
 </a>
 
 
@@ -74,11 +65,6 @@
 
     <button type="submit">Læg i kurv</button>
 </form>
-
-<a href="/checkout" th:href="@{/checkout}">
-    <button>Se kurv</button>
-</a>
-
 
 </body>
 </html>
