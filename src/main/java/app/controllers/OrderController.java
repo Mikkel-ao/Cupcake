@@ -26,6 +26,14 @@ public class OrderController {
         app.post("checkout", ctx -> checkout(ctx, connectionPool));
         app.get("receipt", ctx -> showReceipt(ctx, connectionPool));
         app.post("delete-from-basket", ctx -> deleteFromBasket(ctx, connectionPool));
+        app.post("cancel-order", ctx -> cancelOrder(ctx, connectionPool));
+    }
+
+    private static void cancelOrder(Context ctx, ConnectionPool connectionPool) {
+        HttpSession session = ctx.req().getSession();
+        session.removeAttribute("basket");
+
+        ctx.redirect("/");
     }
 
     private static void deleteFromBasket(Context ctx, ConnectionPool connectionPool) {

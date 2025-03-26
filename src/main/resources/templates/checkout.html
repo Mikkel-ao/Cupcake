@@ -17,6 +17,11 @@
     <button>Back</button>
 </a>
 <form method="post">
+    <button type="submit" formaction="/cancel-order" th:formaction="@{/cancel-order}">
+        Annullér ordrer
+    </button>
+</form>
+<form method="post">
     <button type="submit" formaction="/checkout" th:formaction="@{/checkout}">
         Buy
     </button>
