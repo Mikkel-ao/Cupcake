@@ -10,7 +10,6 @@ import io.javalin.http.Context;
 public class UserController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        //app.get("/", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> login(ctx, connectionPool));
         app.get("/login",ctx -> login(ctx, connectionPool));
         app.get("/index", ctx -> ctx.render("index.html"));
@@ -47,7 +46,7 @@ public class UserController {
         try {
             UserMapper.createUser(email, password1, connectionPool);
             ctx.attribute("message", "User created successfully. Please log in.");
-            ctx.render("/createuser.html");
+            ctx.render("/login.html");
         } catch (DatabaseException e) {
             ctx.attribute("message", "User already exists. Try again or log in.");
             ctx.render("/createuser.html");
