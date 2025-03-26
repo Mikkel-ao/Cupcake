@@ -40,6 +40,7 @@ public class OrderController {
         try{
             int itemIndex = Integer.parseInt(ctx.formParam("itemIndex"));
             HttpSession session = ctx.req().getSession();
+            //type casting in parenteses ! Default is just Object type !!
             List<BasketItemDTO> basket = (List<BasketItemDTO>) session.getAttribute("basket");
 
             if (basket != null && itemIndex >= 0 && itemIndex < basket.size()) {
