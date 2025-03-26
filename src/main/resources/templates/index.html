@@ -19,7 +19,8 @@
     <button>Ordrer</button>
 </a>
 
-<a href="/customer" th:href="@{/customer}">
+
+<a href="/customer" th:href="@{/customer}" th:if="${session.role == 'admin'}">
     <button>Kunder</button>
 </a>
 
