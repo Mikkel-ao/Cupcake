@@ -7,24 +7,21 @@
 
 <body>
 <div class="page-container">
-    <header></header>
-        <form class="generic-form" method="post" action="/login">
-            <input type="text" name="email" placeholder="Enter email"/>
-            <input type="password" name="password" placeholder="Enter password"/>
-            <button type="submit">Login</button>
-            <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
-        </form>
-    </header>
-
+    <form class="generic-form" method="post" action="/login">
+        <input type="text" name="email" placeholder="Enter email"/>
+        <input type="password" name="password" placeholder="Enter password"/>
+        <button type="submit">Login</button>
+        <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
+    </form>
     <footer>
-    <div class="create-user-form">
-        <a href="createuser.html" th:href="@{/createuser}">Create User</a>
-    </div>
-    <div>
-        <a href="index.html" th:href="@{/index}">Back to front page </a>
-    </div>
+        <div class="create-user-form">
+            <a href="createuser.html" th:href="@{/createuser}">Create User</a>
+        </div>
+        <div>
+            <a href="index.html" th:href="@{/index}">Back to front page </a>
+        </div>
     </footer>
-
 </div>
+
 </body>
 </html>

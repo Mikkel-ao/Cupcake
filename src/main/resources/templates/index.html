@@ -15,62 +15,70 @@
     <h1>Olsker Cupcakes</h1>
 </header>
 
+<a href="/orders" th:href="@{/orders}">
+    <button>
+        Ordrer
+    </button>
+</a>
 
-<a href="/basket" th:href="@{/basket}"></a>
-<button>
-    Læg i kurv
-</button>
+<a href="/orders" th:href="@{/customers}">
+    <button>
+        Kunder
+    </button>
+</a>
 
-<a href="/checkout" th:href="@{/checkout}"></a>
-<button>
-    Basket icon
-</button>
+<a href="/login" th:ref="@{/login}">
+    <button>
+        Log ind / Tilmeld
+    </button>
+</a>
 
-<a href="/orders" th:href="@{/orders}"></a>
-<button>
-    Ordrer
-</button>
-
-<a href="/orders" th:href="@{/customers}"></a>
-<button>
-    Kunder
-</button>
-
-<form class="index-Login-Button" method="post">
-    <button type="submit" formaction="/login">Login / Sign up</button>
-</form>
-
+<a href="/checkout" th:href="@{/checkout}">
+    <button>Indkøbskurv</button>
+</a>
 
 <h2>Velkommen ombord</h2>
 <p>Øens bedste cupcakes. Vælg og bestil her: </p>
 
-<div class="dropdown">
-    <button class="dropbtn">Vælg bund</button>
-    <div class="dropdown-content">
-        <a href="#">Chocolate</a>
-        <a href="#">Vanilla</a>
-        <a href="#">Nutmeg</a>
-    </div>
-</div>
+<form action="/add-to-basket" method="post" th:action="@{/add-to-basket}">
 
-<div class="dropdown">
-    <button class="dropbtn">Vælg topping</button>
-    <div class="dropdown-content">
-        <a href="#">Chocolate</a>
-        <a href="#">Blueberry</a>
-        <a href="#">Raspberry</a>
+    <div class="dropdown">
+        <select name="bottom" id="bottom" required> <!-- "required" makes it impossible to submit before choosing an option! -->
+            <option value="" disabled selected>Vælg bund</option> <!-- Default option -->
+            <option value="Chocolate">Chocolate</option>
+            <option value="Vanilla">Vanilla</option>
+            <option value="Nutmeg">Nutmeg</option>
+        </select>
     </div>
-</div>
 
-<div class="dropdown">
-    <button class="dropbtn">Vælg antal</button>
-    <div class="dropdown-content">
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
+    <div class="dropdown">
+        <select name="topping" id="topping" required>
+            <option value="" disabled selected>Vælg topping</option> <!-- Default option -->
+            <option value="Chocolate">Chocolate</option>
+            <option value="Blueberry">Blueberry</option>
+            <option value="Raspberry">Raspberry</option>
+        </select>
     </div>
-</div>
+
+    <div class="dropdown">
+        <select name="quantity" id="quantity" required>
+            <option value="" disabled selected>Vælg bund</option> <!-- Default option -->
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+
+    <button type="submit">Læg i kurv</button>
+</form>
+
+
 
 
 </body>
 </html>
+
+
+
+
+
