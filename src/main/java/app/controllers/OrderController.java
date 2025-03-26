@@ -25,35 +25,14 @@ public class OrderController {
         app.get("checkout", ctx -> viewBasket(ctx, connectionPool));
         app.post("checkout", ctx -> checkout(ctx, connectionPool));
         app.get("receipt", ctx -> showReceipt(ctx, connectionPool));
-        app.post("delete-from-basket", ctx -> deleteFromBasket(ctx, connectionPool));
-        app.post("cancel-order", ctx -> cancelOrder(ctx, connectionPool));
+        app.post("cancel-order", ctx -> cancelOrder(ctx));
     }
 
-    private static void cancelOrder(Context ctx, ConnectionPool connectionPool) {
-        HttpSession session = ctx.req().getSession();
-        session.removeAttribute("basket");
-
+    private static void cancelOrder(Context ctx) {
+        ctx.sessionAttribute("basket", null);
         ctx.redirect("/");
     }
 
-    private static void deleteFromBasket(Context ctx, ConnectionPool connectionPool) {
-        try{
-            int itemIndex = Integer.parseInt(ctx.formParam("itemIndex"));
-            HttpSession session = ctx.req().getSession();
-            //type casting in parenteses ! Default is just Object type !!
-            List<BasketItemDTO> basket = (List<BasketItemDTO>) session.getAttribute("basket");
-
-            if (basket != null && itemIndex >= 0 && itemIndex < basket.size()) {
-                basket.remove(itemIndex);
-            }
-
-            session.setAttribute("basket", basket);
-
-            ctx.redirect("/checkout");
-        } catch (Exception e) {
-            ctx.status(500).result(e.getMessage());
-        }
-    }
 
     private static void showReceipt(Context ctx, ConnectionPool connectionPool) {
 
@@ -69,19 +48,16 @@ public class OrderController {
         } catch (Exception e) {
             ctx.status(500).result(e.getMessage());
         }
-
-
     }
 
     private static void checkout(Context ctx, ConnectionPool connectionPool) {
-        HttpSession session = ctx.req().getSession();
-        List<BasketItemDTO> basket = (List<BasketItemDTO>) session.getAttribute("basket");
+        List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
         if (basket == null || basket.isEmpty()) {
             ctx.status(400).result("Basket is empty");
             return;
         }
         try {
-            int userId = (int) session.getAttribute("userId");
+            int userId = ctx.sessionAttribute("userId");
 
             if (userId == 0) {
                 ctx.status(400).result("You are not logged in");
@@ -117,7 +93,7 @@ public class OrderController {
             List<BasketItemDTO> orderDetails = OrderMapper.getOrderDetailsByOrderId(connectionPool, orderId);
 
             // Clear the basket after purchase
-            session.removeAttribute("basket");
+            ctx.sessionAttribute("basket", null);
 
             ctx.attribute("orderId", orderId);
             ctx.attribute("orderDetails", orderDetails);
@@ -131,8 +107,8 @@ public class OrderController {
 
     private static void viewBasket(Context ctx, ConnectionPool connectionPool) {
 
-        HttpSession session = ctx.req().getSession();
-        List<BasketOrder> basket = (List<BasketOrder>) session.getAttribute("basket");
+
+        List<BasketOrder> basket = ctx.sessionAttribute("basket");
         if (basket == null) {
             basket = new ArrayList<>();
         }
@@ -142,9 +118,9 @@ public class OrderController {
     }
 
     private static void addToBasket(Context ctx, ConnectionPool connectionPool) {
-        HttpSession session = ctx.req().getSession();
 
-        List<BasketItemDTO> basket = (List<BasketItemDTO>) session.getAttribute("basket");
+
+        List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
         if (basket == null) {
             basket = new ArrayList<>();
         }
@@ -163,7 +139,7 @@ public class OrderController {
 
         BasketItemDTO basketItem = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, totalPrice);
         basket.add(basketItem);
-        session.setAttribute("basket", basket);
+        ctx.sessionAttribute("basket", basket);
         ctx.redirect("/");
     }
 
