@@ -38,7 +38,42 @@
 <h2>Velkommen ombord</h2>
 <p>Øens bedste cupcakes. Vælg og bestil her: </p>
 
-<div class="dropdown">
+<form action="/add-to-basket" method="post" th:action="@{/add-to-basket}">
+    <div class="dropdown">
+        <label for="bottom">Vælg bund:</label>
+        <select name="bottom" id="bottom" required> <!-- "required" makes it impossible to submit before choosing an option! -->
+            <option value="Chocolate">Chocolate</option>
+            <option value="Vanilla">Vanilla</option>
+            <option value="Nutmeg">Nutmeg</option>
+        </select>
+    </div>
+
+    <div class="dropdown">
+        <label for="topping">Vælg topping:</label>
+        <select name="topping" id="topping" required>
+            <option value="Chocolate">Chocolate</option>
+            <option value="Blueberry">Blueberry</option>
+            <option value="Raspberry">Raspberry</option>
+        </select>
+    </div>
+
+    <div class="dropdown">
+        <label for="quantity">Vælg antal:</label>
+        <select name="quantity" id="quantity" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+
+    <button type="submit">Læg i kurv</button>
+</form>
+
+<a href="/checkout" th:href="@{/checkout}">
+    <button>Se kurv</button>
+</a>
+
+<!--<div class="dropdown">
     <button class="dropbtn">Vælg bund</button>
     <div class="dropdown-content">
         <a href="#">Chocolate</a>
@@ -63,7 +98,7 @@
         <a href="#">2</a>
         <a href="#">3</a>
     </div>
-</div>
+</div> -->
 
     <button type="submit">Læg i kurv</button>
 <form class="index-Login-Button" method="get">

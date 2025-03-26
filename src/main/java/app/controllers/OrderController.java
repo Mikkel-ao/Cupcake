@@ -80,9 +80,7 @@ public class OrderController {
             return;
         }
         try {
-
-            //TODO: This is now hard coded for the purpose of testing. It needs to be changed back to the code in the comments!
-            int userId = 1;//(int) session.getAttribute("userId");
+            int userId = (int) session.getAttribute("userId");
 
             if (userId == 0) {
                 ctx.status(400).result("You are not logged in");
@@ -172,8 +170,8 @@ public class OrderController {
         try {
 
             //TODO: These values are hard coded for testing purposes so far!
-            int userId = 1; //ctx.sessionAttribute("userId");
-            String role = "customer";//ctx.sessionAttribute("role");
+            int userId = ctx.sessionAttribute("userId");
+            String role = ctx.sessionAttribute("role");
 
 
             // Fetch the orders using the OrderMapper
