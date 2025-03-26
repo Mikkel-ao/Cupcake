@@ -68,9 +68,15 @@
     </div>
 </div>
 
-<form class="index-Login-Button" method="post">
+<form class="index-Login-Button" method="get">
     <button type="submit" formaction="/login">Login</button>
 </form>
+
+<div >
+
+    <a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}"> Log out </a>
+    <span th:if="${session.currentUser != null}"> </span>
+</div>
 
 </body>
 </html>

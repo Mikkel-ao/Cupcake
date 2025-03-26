@@ -25,8 +25,8 @@ public class UserMapper {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
         ) {
-            ps.setString(2, email);
-            ps.setString(1, password);
+            ps.setString(1, email);
+            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
