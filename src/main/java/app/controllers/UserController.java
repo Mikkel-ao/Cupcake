@@ -1,11 +1,14 @@
 package app.controllers;
 
+import app.DTO.UserDTO;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import java.util.List;
 
 public class UserController {
 
@@ -16,6 +19,7 @@ public class UserController {
         app.get("/index", ctx -> ctx.render("index.html"));
         app.get("/createuser", ctx -> ctx.render("createuser.html"));
         app.post("/createuser",ctx -> createUser(ctx,connectionPool));
+        app.get("/customer", ctx -> showAllCustomers(ctx,connectionPool));
     }
     private static void login(Context ctx, ConnectionPool connectionPool) {
         String username = ctx.formParam("email");
@@ -51,6 +55,15 @@ public class UserController {
         } catch (DatabaseException e) {
             ctx.attribute("message", "User already exists. Try again or log in.");
             ctx.render("/createuser.html");
+        }
+    }
+    private static void showAllCustomers(Context ctx, ConnectionPool connectionPool) {
+        try {
+            List<UserDTO> customersList = UserMapper.getAllUsers(connectionPool);
+            ctx.attribute("customersList", customersList);
+            ctx.render("customer.html");
+        }catch (Exception e) {
+            ctx.status(500).result("An error occurred while fetching customers: " + e.getMessage());
         }
     }
 }

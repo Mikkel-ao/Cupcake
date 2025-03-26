@@ -130,11 +130,34 @@ footer{
     background-color: purple;
 }
 
-/**** Login styles ****/
+/**** Login + logout styles ****/
 
 .index-Login-Button {
     color: black;
     border: none;
     background-color: white;
 }
+.index-Login-Button{
+    color: black;
+    border: none;
+    background-color: white;
+}
 
+
+/*** Customer page styles ****/
+
+.customer-table{
+    border-collapse: collapse; /* Vi laver border imellem hvert felt senere, og derfor vil der komme dobbelt nogle steder hvis denne ikke er væk */
+    font-size: 1.2rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-width: 400px;
+}
+.customer-table td, .customer-table th{
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.customer-table tr:nth-child(even){ /*  hver anden række grå*/
+    background-color: silver;
+}

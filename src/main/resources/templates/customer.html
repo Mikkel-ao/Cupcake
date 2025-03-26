@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<title>Cupcake</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<form class="generic-form" method="post">
+    <table class="customer-table">
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Customer Email</th>
+                <th>Customer Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${customersList}">
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.balance}"></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<footer>
+    <div>
+        <a href="index.html" th:href="@{/index}" class="text-silver"> Back to front page </a>
+    </div>
+</footer>
+</body>
+</html>

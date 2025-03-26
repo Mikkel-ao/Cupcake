@@ -22,6 +22,7 @@ private double balance;
         this.balance = balance;
     }
 
+
     public int getUserId() {
         return userId;
     }
