@@ -81,10 +81,10 @@ public class OrderController {
             UserMapper.updateUserBalance(connectionPool, userId, newBalance);
 
 
-            // Insert the order and get the generated order_id
+
             int orderId = OrderMapper.createOrder(connectionPool, userId);
 
-            // Save each basket item in the order_details table
+
             for (BasketItemDTO item : basket) {
                 OrderDetails orderDetail = new OrderDetails(orderId, item.getBottomId(), item.getToppingId(), item.getQuantity(), item.getPrice());
                 OrderMapper.saveOrderDetail(connectionPool, orderDetail);
@@ -92,7 +92,7 @@ public class OrderController {
 
             List<BasketItemDTO> orderDetails = OrderMapper.getOrderDetailsByOrderId(connectionPool, orderId);
 
-            // Clear the basket after purchase
+
             ctx.sessionAttribute("basket", null);
 
             ctx.attribute("orderId", orderId);
@@ -150,13 +150,13 @@ public class OrderController {
             String role = ctx.sessionAttribute("role");
 
 
-            // Fetch the orders using the OrderMapper
+
             List<UserAndOrderDTO> orderList = OrderMapper.getOrdersByRole(connectionPool, userId, role);
 
-            // Pass the order list to the HTML template
+
             ctx.attribute("orderList", orderList);
 
-            // Render the HTML page with Thymeleaf
+
             ctx.render("orders.html");
         } catch (Exception e) {
             ctx.status(500).result("An error occurred while fetching orders: " + e.getMessage());

@@ -28,16 +28,16 @@ public class OrderMapper {
                 int quantity = rs.getInt("quantity");
                 double cupcakePrice = rs.getDouble("cupcake_price");
 
-                // Optional: Fetch bottom and topping names based on their IDs (if necessary)
+
                 String bottomName = getBottomNameById(connectionPool, bottomId);
                 String toppingName = getToppingNameById(connectionPool, toppingId);
 
-                // Create an OrderDetails object with fetched data
+
                 BasketItemDTO orderDetail = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, cupcakePrice);
                 orderDetailsList.add(orderDetail);
             }
 
-            return orderDetailsList; // Return the list of order details
+            return orderDetailsList;
         } catch (SQLException e) {
             throw new DatabaseException("Failed to retrieve order details for order ID: " + orderId);
         }
@@ -94,7 +94,7 @@ public class OrderMapper {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getDouble("price"); // Return the price of the topping
+                return rs.getDouble("price");
             } else {
                 throw new DatabaseException("Topping not found: " + toppingName);
             }
@@ -114,7 +114,7 @@ public class OrderMapper {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getDouble("price"); // Return the price of the bottom
+                return rs.getDouble("price");
             } else {
                 throw new DatabaseException("Bottom not found: " + bottomName);
             }
@@ -197,7 +197,7 @@ public class OrderMapper {
 
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                return rs.getInt(1); // Return the generated order_id
+                return rs.getInt(1);
             } else {
                 throw new DatabaseException("Failed to create order, no ID generated.");
             }
