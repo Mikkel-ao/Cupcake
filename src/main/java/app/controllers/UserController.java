@@ -7,6 +7,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -20,7 +21,14 @@ public class UserController {
         app.get("/createuser", ctx -> ctx.render("createuser.html"));
         app.post("/createuser",ctx -> createUser(ctx,connectionPool));
         app.get("/customer", ctx -> showAllCustomers(ctx,connectionPool));
+        app.get("/logout", ctx -> logout(ctx));
     }
+
+    private static void logout(Context ctx) {
+        ctx.req().getSession().invalidate();
+        ctx.redirect("/");
+    }
+
     private static void login(Context ctx, ConnectionPool connectionPool) {
         String username = ctx.formParam("email");
         String password = ctx.formParam("password");

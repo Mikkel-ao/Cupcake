@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <title>Cupcake</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,10 +33,10 @@
 
 <a href="/customer" th:href="@{/customer}">
     <a href="/customer" th:href="@{/customer}" th:if="${session.role == 'admin'}">
-<button>
-    Kunder
-</button>
-</a>
+        <button>
+            Kunder
+        </button>
+    </a>
 </a>
 
 
@@ -71,12 +71,12 @@
 </div>
 
 <form class="index-Login-Button" method="post">
-    <button type="submit" formaction="/login">Login </button>
+    <button type="submit" formaction="/login">Login</button>
 </form>
 
-    <form class="index-Logout-Button" method="post"></form>
-    <a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}"> Log out </a>
-    <span th:if="${session.currentUser != null}"> |  </span>
+<form class="index-Logout-Button" method="post"></form>
+<a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}"> Log out </a>
+<span th:if="${session.currentUser != null}"> |  </span>
 
 
 </body>
