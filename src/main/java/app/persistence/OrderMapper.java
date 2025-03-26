@@ -1,7 +1,9 @@
 package app.persistence;
 
-import app.DTO.UserAndOrder;
-import app.entities.Order;
+import app.DTO.BasketItemDTO;
+import app.DTO.BasketOrder;
+import app.DTO.UserAndOrderDTO;
+import app.entities.OrderDetails;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
@@ -10,9 +12,204 @@ import java.util.List;
 
 public class OrderMapper {
 
-    public static List<UserAndOrder> getOrdersByRole(ConnectionPool connectionPool, int userId, String role) throws DatabaseException
+    public static List<BasketItemDTO> getOrderDetailsByOrderId(ConnectionPool connectionPool, int orderId) throws DatabaseException {
+        String sql = "SELECT bottom_id, topping_id, quantity, cupcake_price FROM order_details WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+
+            List<BasketItemDTO> orderDetailsList = new ArrayList<>();
+            while (rs.next()) {
+                int bottomId = rs.getInt("bottom_id");
+                int toppingId = rs.getInt("topping_id");
+                int quantity = rs.getInt("quantity");
+                double cupcakePrice = rs.getDouble("cupcake_price");
+
+                // Optional: Fetch bottom and topping names based on their IDs (if necessary)
+                String bottomName = getBottomNameById(connectionPool, bottomId);
+                String toppingName = getToppingNameById(connectionPool, toppingId);
+
+                // Create an OrderDetails object with fetched data
+                BasketItemDTO orderDetail = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, cupcakePrice);
+                orderDetailsList.add(orderDetail);
+            }
+
+            return orderDetailsList; // Return the list of order details
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve order details for order ID: " + orderId);
+        }
+    }
+
+    public static String getBottomNameById(ConnectionPool connectionPool, int bottomId) throws DatabaseException {
+        String sql = "SELECT bottom_name FROM cupcake_bottoms WHERE bottom_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, bottomId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("bottom_name");
+            } else {
+                throw new DatabaseException("Bottom not found for ID: " + bottomId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve bottom name: " + e.getMessage());
+        }
+    }
+
+    public static String getToppingNameById(ConnectionPool connectionPool, int toppingId) throws DatabaseException {
+        String sql = "SELECT topping_name FROM cupcake_toppings WHERE topping_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, toppingId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("topping_name");
+            } else {
+                throw new DatabaseException("Topping not found for ID: " + toppingId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve topping name: " + e.getMessage());
+        }
+    }
+
+
+
+
+    public static double getToppingPrice(ConnectionPool connectionPool, String toppingName) throws DatabaseException {
+        String sql = "SELECT price FROM cupcake_toppings WHERE topping_name = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, toppingName);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getDouble("price"); // Return the price of the topping
+            } else {
+                throw new DatabaseException("Topping not found: " + toppingName);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve topping price: " + e.getMessage());
+        }
+    }
+
+
+    public static double getBottomPrice(ConnectionPool connectionPool, String bottomName) throws DatabaseException {
+        String sql = "SELECT price FROM cupcake_bottoms WHERE bottom_name = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, bottomName);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getDouble("price"); // Return the price of the bottom
+            } else {
+                throw new DatabaseException("Bottom not found: " + bottomName);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve bottom price: " + e.getMessage());
+        }
+    }
+
+
+
+    public static int getBottomId(ConnectionPool connectionPool, String bottomName) throws DatabaseException {
+        String sql = "SELECT bottom_id FROM cupcake_bottoms WHERE bottom_name = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, bottomName);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("bottom_id");
+            } else {
+                throw new DatabaseException("Bottom not found: " + bottomName);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve bottom ID: " + e.getMessage());
+        }
+    }
+
+    public static int getToppingId(ConnectionPool connectionPool, String toppingName) throws DatabaseException {
+        String sql = "SELECT topping_id FROM cupcake_toppings WHERE topping_name = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, toppingName);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("topping_id");
+            } else {
+                throw new DatabaseException("Topping not found: " + toppingName);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve topping ID: " + e.getMessage());
+        }
+    }
+
+
+
+    public static void saveOrderDetail(ConnectionPool connectionPool, OrderDetails item) throws DatabaseException {
+        String sql = "INSERT INTO order_details (order_id, bottom_id, topping_id, quantity, cupcake_price) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, item.getOrder_id());
+            ps.setInt(2, item.getBottom_id());
+            ps.setInt(3, item.getTopping_id());
+            ps.setInt(4, item.getQuantity());
+            ps.setDouble(5, item.getCupcake_price());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to save order detail: " + e.getMessage());
+        }
+    }
+
+
+
+    public static int createOrder(ConnectionPool connectionPool, int userId) throws DatabaseException {
+        String sql = "INSERT INTO orders (user_id, order_date) VALUES (?, ?)";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setInt(1, userId);
+            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); // Return the generated order_id
+            } else {
+                throw new DatabaseException("Failed to create order, no ID generated.");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to create order: " + e.getMessage());
+        }
+    }
+
+
+    public static List<UserAndOrderDTO> getOrdersByRole(ConnectionPool connectionPool, int userId, String role) throws DatabaseException
     {
-        List<UserAndOrder> orderList = new ArrayList<>();
+        List<UserAndOrderDTO> orderList = new ArrayList<>();
         String sql;
 
         if("admin".equals(role)){
@@ -51,7 +248,7 @@ public class OrderMapper {
                 Timestamp timestamp = rs.getTimestamp("order_date");
                 int price = rs.getInt("cupcake_price");
                 int quantity = rs.getInt("quantity");
-                orderList.add(new UserAndOrder(orderId, email, bottomName, toppingName, timestamp, price, quantity));
+                orderList.add(new UserAndOrderDTO(orderId, email, bottomName, toppingName, timestamp, price, quantity));
             }
         }
         catch (SQLException e)
