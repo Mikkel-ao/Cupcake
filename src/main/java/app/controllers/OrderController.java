@@ -19,8 +19,8 @@ public class OrderController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
 
-        app.post("orders", ctx -> showAllOrders(ctx, connectionPool));
-        app.get("/orders", ctx -> showAllOrders(ctx, connectionPool)); //TODO: This must be deleted! Only for testing purposes!
+        app.post("orders", ctx -> showAllOrders(ctx, connectionPool)); //TODO: Denne bruges ikke indtil videre, men venter med at slette!
+        app.get("orders", ctx -> showAllOrders(ctx, connectionPool));
         app.post("add-to-basket", ctx -> addToBasket(ctx, connectionPool));
         app.get("checkout", ctx -> viewBasket(ctx, connectionPool));
         app.post("checkout", ctx -> checkout(ctx, connectionPool));
@@ -169,7 +169,6 @@ public class OrderController {
     private static void showAllOrders(Context ctx, ConnectionPool connectionPool) {
         try {
 
-            //TODO: These values are hard coded for testing purposes so far!
             int userId = ctx.sessionAttribute("userId");
             String role = ctx.sessionAttribute("role");
 
