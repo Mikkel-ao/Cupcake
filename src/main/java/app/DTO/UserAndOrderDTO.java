@@ -2,7 +2,7 @@ package app.DTO;
 
 import java.sql.Timestamp;
 
-public class UserAndOrder {
+public class UserAndOrderDTO {
 
     private int orderId;
     private String email;
@@ -12,7 +12,7 @@ public class UserAndOrder {
     private int price;
     private int quantity;
 
-    public UserAndOrder(int orderId, String email, String bottomFlavor, String topFlavor, Timestamp orderDate, int price, int quantity) {
+    public UserAndOrderDTO(int orderId, String email, String bottomFlavor, String topFlavor, Timestamp orderDate, int price, int quantity) {
         this.orderId = orderId;
         this.email = email;
         this.bottomFlavor = bottomFlavor;
