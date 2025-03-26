@@ -1,41 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>FourThingsPlus</title>
+<title>Create-user</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/styles.css" th:href="@{/public/css/styles.css}" rel="stylesheet"/>
-<head>
-    <meta charset="UTF-8">
-    <title>create-user</title>
-</head>
-<body>
+<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 
+<body>
 <div class="page-container">
-    <header Dette er min header>
+    <header>
         <a href="index.html" th:href="@{/}">
             <img class="logo" src="../public/images/cupcakelogo.png" th:src="@{/images/cupcakelogo.png}"
-                 alt="Cup cake logo"></a>
+                 alt="Cup cake logo">
+        </a>
     </header>
 
     <h1>Here you can create a profile</h1>
-    <main>
-        <form class="generic-form" method="post">
+
+    <form class="generic-form" method="post">
             <input type="text" name="email" placeholder="Enter email" required/>
             <input type="password" name="password1" placeholder=" Enter password" required/>
             <input type="password" name="password2" placeholder=" Enter password again" required/>
 
             <button type="submit" formaction="/createuser">Create profile</button>
+    </form>
 
-            <div><p th:text="${message}"></p></div>
-        </form>
-    </main>
-
-    <footer>
         <div>
-            <a href="index.html" th:href="@{/index}" class="text-silver"> Back to front page </a>
+            <a href="index.html" th:href="@{/index}"> Back to front page </a>
         </div>
-    </footer>
-</div>
 
+</div>
 </body>
 </html>

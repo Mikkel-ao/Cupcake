@@ -4,21 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-</head>
+
 <body>
 <div class="page-container">
 
-<main>
 
     <form class="generic-form" method="post" action="/login">
         <input type="text" name="email" placeholder="Enter email"/>
         <input type="password" name="password" placeholder="Enter password"/>
         <button type="submit">Login</button>
+        <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
+
+
     <div class="create-user-form">
         <a href="createuser.html" th:href="@{/createuser}">Create User</a>
     </div>
-</main>
+
 </div>
 </body>
 </html>
