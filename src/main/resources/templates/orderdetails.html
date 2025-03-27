@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<meta charset="UTF-8">
 <head>
     <title>Order Details</title>
 </head>
@@ -24,5 +25,17 @@
     </tbody>
 </table>
 <a href="/orders" th:href="@{/orders}">Back to Orders</a>
+
+<div class="email-on-page">
+    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
+    Dette er min email på hver side</span>
+</div>
+
+<div class="back-to-home">
+    <a href="/" th:href="@{/}">
+        <button>Tilbage til forsiden</button>
+    </a>
+</div>
+
 </body>
 </html>
