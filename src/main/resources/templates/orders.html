@@ -18,22 +18,18 @@
         <tr>
             <th>Order ID</th>
             <th>Email</th>
-            <th>Bottom Flavor</th>
-            <th>Top Flavor</th>
             <th>Order Date</th>
-            <th>Price</th>
-            <th>Quantity</th>
+            <th>Total Price</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="order : ${orderList}">
-            <td th:text="${order.orderId}"></td>
+            <td>
+                <a th:href ="@{/orderdetails(orderId=${order.orderId})} " th:text="${order.orderId}"></a>
+            </td>
             <td th:text="${order.email}"></td>
-            <td th:text="${order.bottomFlavor}"></td>
-            <td th:text="${order.topFlavor}"></td>
             <td th:text="${order.orderDate}"></td>
-            <td th:text="${order.price}"></td>
-            <td th:text="${order.quantity}"></td>
+            <td th:text="${order.totalPrice}"></td>
         </tr>
         </tbody>
     </table>

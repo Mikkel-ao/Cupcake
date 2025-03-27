@@ -1,7 +1,6 @@
 package app.controllers;
 
 import app.DTO.BasketItemDTO;
-import app.DTO.BasketOrder;
 import app.DTO.UserAndOrderDTO;
 import app.entities.OrderDetails;
 import app.persistence.ConnectionPool;
@@ -9,7 +8,6 @@ import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import jakarta.servlet.http.HttpSession;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,6 +24,25 @@ public class OrderController {
         app.post("checkout", ctx -> checkout(ctx, connectionPool));
         app.get("receipt", ctx -> showReceipt(ctx, connectionPool));
         app.post("cancel-order", ctx -> cancelOrder(ctx));
+        app.get("orderdetails", ctx -> viewOrderDetails(ctx, connectionPool));
+    }
+
+    private static void viewOrderDetails(Context ctx, ConnectionPool connectionPool) {
+        try{
+            String role = ctx.sessionAttribute("role");
+            int userId = ctx.sessionAttribute("userId");
+            int orderId = Integer.parseInt(ctx.queryParam("orderId"));
+
+            List<BasketItemDTO> orderDetails = OrderMapper.getOrderDetails(connectionPool, role, userId, orderId);
+
+            ctx.attribute("orderDetails", orderDetails);
+            ctx.attribute("orderId", orderId);
+
+            ctx.render("orderDetails.html");
+
+        } catch (Exception e){
+            ctx.status(500).result(e.getMessage());
+        }
     }
 
     private static void cancelOrder(Context ctx) {
@@ -109,11 +126,18 @@ public class OrderController {
     private static void viewBasket(Context ctx, ConnectionPool connectionPool) {
 
 
-        List<BasketOrder> basket = ctx.sessionAttribute("basket");
+        List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
         if (basket == null) {
             basket = new ArrayList<>();
         }
 
+        double totalPrice = 0;
+
+        for(BasketItemDTO order : basket) {
+            totalPrice += order.getPrice();
+        }
+
+        ctx.attribute("totalPrice", totalPrice);
         ctx.attribute("basket", basket);
         ctx.render("checkout.html");
     }

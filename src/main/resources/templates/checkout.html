@@ -13,6 +13,8 @@
         <span th:text="'Price: ' + ${item.price}"></span>
     </li>
 </ul>
+<h2> Total Price:</h2>
+<span th:text="${totalPrice}"></span>
 <a href="/" th:href="@{/}">
     <button>Tilbage</button>
 </a>
