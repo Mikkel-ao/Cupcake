@@ -1,11 +1,11 @@
 package app.entities;
 
 public class User {
-private int userId;
-private String password;
-private String email;
-private String role;
-private double balance;
+    private int userId;
+    private String password;
+    private String email;
+    private String role;
+    private double balance;
 
     public User(int userId, String password, String email, String role, double balance) {
         this.userId = userId;
@@ -38,6 +38,7 @@ private double balance;
     public String getRole() {
         return role;
     }
+
 
     public double getBalance() {
         return balance;

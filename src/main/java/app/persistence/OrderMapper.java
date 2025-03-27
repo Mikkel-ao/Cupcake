@@ -1,7 +1,6 @@
 package app.persistence;
 
 import app.DTO.BasketItemDTO;
-import app.DTO.BasketOrder;
 import app.DTO.UserAndOrderDTO;
 import app.entities.OrderDetails;
 import app.exceptions.DatabaseException;
@@ -82,8 +81,6 @@ public class OrderMapper {
     }
 
 
-
-
     public static double getToppingPrice(ConnectionPool connectionPool, String toppingName) throws DatabaseException {
         String sql = "SELECT price FROM cupcake_toppings WHERE topping_name = ?";
 
@@ -122,7 +119,6 @@ public class OrderMapper {
             throw new DatabaseException("Failed to retrieve bottom price: " + e.getMessage());
         }
     }
-
 
 
     public static int getBottomId(ConnectionPool connectionPool, String bottomName) throws DatabaseException {
@@ -164,7 +160,6 @@ public class OrderMapper {
     }
 
 
-
     public static void saveOrderDetail(ConnectionPool connectionPool, OrderDetails item) throws DatabaseException {
         String sql = "INSERT INTO order_details (order_id, bottom_id, topping_id, quantity, cupcake_price) VALUES (?, ?, ?, ?, ?)";
 
@@ -182,7 +177,6 @@ public class OrderMapper {
             throw new DatabaseException("Failed to save order detail: " + e.getMessage());
         }
     }
-
 
 
     public static int createOrder(ConnectionPool connectionPool, int userId) throws DatabaseException {
@@ -207,19 +201,18 @@ public class OrderMapper {
     }
 
 
-    public static List<UserAndOrderDTO> getOrdersByRole(ConnectionPool connectionPool, int userId, String role) throws DatabaseException
-    {
+    public static List<UserAndOrderDTO> getOrdersByRole(ConnectionPool connectionPool, int userId, String role) throws DatabaseException {
         List<UserAndOrderDTO> orderList = new ArrayList<>();
         String sql;
 
-        if("admin".equals(role)){
+        if ("admin".equals(role)) {
             sql = "SELECT orders.order_id, users.email, cupcake_bottoms.bottom_name, cupcake_toppings.topping_name, orders.order_date, order_details.cupcake_price, order_details.quantity\n" +
                     "FROM users\n" +
                     "JOIN orders ON orders.user_id = users.user_id\n" +
                     "JOIN order_details ON orders.order_id = order_details.order_id\n" +
                     "JOIN cupcake_bottoms ON cupcake_bottoms.bottom_id = order_details.bottom_id\n" +
                     "JOIN cupcake_toppings ON cupcake_toppings.topping_id = order_details.topping_id";
-        } else if ("customer".equals(role)){
+        } else if ("customer".equals(role)) {
             sql = "SELECT orders.order_id, users.email, cupcake_bottoms.bottom_name, cupcake_toppings.topping_name, orders.order_date, order_details.cupcake_price, order_details.quantity\n" +
                     "FROM users\n" +
                     "JOIN orders ON orders.user_id = users.user_id\n" +
@@ -234,13 +227,12 @@ public class OrderMapper {
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
-        )
-        {         if ("customer".equals(role)) {
-            ps.setInt(1, userId);
-        }
+        ) {
+            if ("customer".equals(role)) {
+                ps.setInt(1, userId);
+            }
             ResultSet rs = ps.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 int orderId = rs.getInt("order_id");
                 String email = rs.getString("email");
                 String bottomName = rs.getString("bottom_name");
@@ -250,10 +242,8 @@ public class OrderMapper {
                 int quantity = rs.getInt("quantity");
                 orderList.add(new UserAndOrderDTO(orderId, email, bottomName, toppingName, timestamp, price, quantity));
             }
-        }
-        catch (SQLException e)
-        {
-            throw new DatabaseException("Fejl!!!!", e.getMessage());
+        } catch (SQLException e) {
+            throw new DatabaseException("Error!!!!", e.getMessage());
         }
         return orderList;
     }
