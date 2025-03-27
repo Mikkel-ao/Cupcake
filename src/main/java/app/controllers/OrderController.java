@@ -76,10 +76,10 @@ public class OrderController {
             return;
         }
         try {
-            int userId = ctx.sessionAttribute("userId");
-
-            if (userId == 0) {
-                ctx.status(400).result("You are not logged in");
+            Integer userId = ctx.sessionAttribute("userId");
+            if (userId == null) {
+                ctx.attribute("errorMessage", "You must be logged in to place an order");
+                ctx.render("checkout.html");
                 return;
             }
 
@@ -95,6 +95,7 @@ public class OrderController {
                 ctx.status(400).result("You do not have enough money");
                 return;
             }
+
 
             double newBalance = currentBalance - totalPrice;
             UserMapper.updateUserBalance(connectionPool, userId, newBalance);
@@ -169,17 +170,17 @@ public class OrderController {
 
     private static void showAllOrders(Context ctx, ConnectionPool connectionPool) {
         try {
-
-            int userId = ctx.sessionAttribute("userId");
+            Integer userId = ctx.sessionAttribute("userId");
             String role = ctx.sessionAttribute("role");
 
-
+            if (userId == null) {
+                ctx.attribute("errorMessage", "You must be logged in to view your orders");
+                ctx.render("index.html");
+                return;
+            }
 
             List<UserAndOrderDTO> orderList = OrderMapper.getOrdersByRole(connectionPool, userId, role);
-
-
             ctx.attribute("orderList", orderList);
-
 
             ctx.render("orders.html");
         } catch (Exception e) {

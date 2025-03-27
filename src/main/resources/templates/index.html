@@ -15,6 +15,10 @@
     <h1>Olsker Cupcakes</h1>
 </header>
 
+<div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <a href="/orders" th:href="@{/orders}">
     <button>Ordrer</button>
 </a>
