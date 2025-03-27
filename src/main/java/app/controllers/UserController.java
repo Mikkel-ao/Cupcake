@@ -38,6 +38,7 @@ public class UserController {
             ctx.sessionAttribute("currentUser",user.getUserId());
             ctx.sessionAttribute("userId", user.getUserId());
             ctx.sessionAttribute("role", user.getRole());
+            ctx.sessionAttribute("email", user.getEmail());
             ctx.redirect("/index");
         } catch (DatabaseException e) {
             ctx.attribute("message", "Login failed. Please try again.");
@@ -69,7 +70,7 @@ public class UserController {
             List<UserDTO> customersList = UserMapper.getAllUsers(connectionPool);
             ctx.attribute("customersList", customersList);
             ctx.render("customer.html");
-        }catch (Exception e) {
+        }catch (DatabaseException e) {
             ctx.status(500).result("An error occurred while fetching customers: " + e.getMessage());
         }
     }

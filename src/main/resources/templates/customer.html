@@ -7,18 +7,18 @@
 </head>
 <body>
 
-<div>
-    <a href="index.html" th:href="@{/index}"> Back to front page </a>
-</div>
+<a href="/" th:href="@{/}">
+    <button>Tilbage til forsiden</button>
+</a>
 
 <form class="generic-form" method="post">
     <table class="customer-table">
         <thead>
-            <tr>
-                <th>Customer ID</th>
-                <th>Customer Email</th>
-                <th>Customer Balance</th>
-            </tr>
+        <tr>
+            <th>Customer ID</th>
+            <th>Customer Email</th>
+            <th>Customer Balance</th>
+        </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${customersList}">
@@ -29,6 +29,11 @@
         </tbody>
     </table>
 </form>
+
+<div class="email-on-page">
+    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
+    Dette er min email på hver side</span>
+</div>
 
 </body>
 </html>

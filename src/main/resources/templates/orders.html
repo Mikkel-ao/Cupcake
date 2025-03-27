@@ -39,6 +39,11 @@
     </table>
 </form>
 
+<div class="email-on-page">
+    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
+    Dette er min email på hver side</span>
+</div>
+
 
 </body>
 </html>

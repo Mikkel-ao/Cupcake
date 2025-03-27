@@ -253,7 +253,7 @@ public class OrderMapper {
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Fejl!!!!", e.getMessage());
+            throw new DatabaseException("Error!!!!", e.getMessage());
         }
         return orderList;
     }

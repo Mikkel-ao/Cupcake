@@ -8,7 +8,7 @@
 <body>
 <div class="page-container">
     <form class="generic-form" method="post" action="/login">
-        <input type="text" name="email" placeholder="Enter email" required/>
+        <input type="email" name="email" placeholder="Enter email" required/>
         <input type="password" name="password" placeholder="Enter password" required/>
         <button type="submit">Login</button>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
@@ -16,10 +16,15 @@
 
     <footer>
         <div class="create-user-form">
-            <a href="createuser.html" th:href="@{/createuser}">Create User</a>
+            <a href="createuser.html" th:href="@{/createuser}">
+                <button>Opret bruger</button>
+            </a>
         </div>
+
         <div>
-            <a href="index.html" th:href="@{/index}">Back to front page </a>
+            <a href="/" th:href="@{/}">
+                <button>Tilbage til forsiden</button>
+            </a>
         </div>
     </footer>
 </div>

@@ -35,13 +35,10 @@ public class UserMapper {
                 double balance = rs.getDouble("balance");
                 return new User(user_id, password, email, role, balance);
             } else {
-                // fejlen opstår fordi parametrene er andereledes i DB end i metoden.
-                // når vi bytter virker path ikke
-                // ved ikke hvordan vi kan ændre det
-                throw new DatabaseException("Fejl i login. Prøv igen");
+                throw new DatabaseException("Error on login - please try again.");
             }
         } catch (SQLException e) {
-            throw new DatabaseException("DB fejl", e.getMessage());
+            throw new DatabaseException("Database error", e.getMessage());
         }
     }
 
@@ -58,12 +55,12 @@ public class UserMapper {
 
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected != 1) {
-                throw new DatabaseException("Fejl ved oprettelse af ny bruger");
+                throw new DatabaseException("An error occurred on attempt to create a user - try again.");
             }
         } catch (SQLException e) {
-            String msg = "Der er sket en fejl. Prøv igen";
+            String msg = "Error - try again.";
             if (e.getMessage().startsWith("ERROR: duplicate key value ")) {
-                msg = "Brugernavnet findes allerede. Vælg et andet";
+                msg = "User " + email + " already exists.";
             }
             throw new DatabaseException(msg, e.getMessage());
         }

@@ -17,16 +17,16 @@
     <h1>Here you can create a profile</h1>
 
     <form class="generic-form" method="post">
-            <input type="text" name="email" placeholder="Enter email" required/>
-            <input type="password" name="password1" placeholder=" Enter password" required/>
-            <input type="password" name="password2" placeholder=" Enter password again" required/>
+        <input type="email" name="email" placeholder="Enter email" required/>
+        <input type="password" name="password1" placeholder=" Enter password" required/>
+        <input type="password" name="password2" placeholder=" Enter password again" required/>
 
-            <button type="submit" formaction="/createuser">Create profile</button>
+        <button type="submit" formaction="/createuser">Create profile</button>
     </form>
 
-        <div>
-            <a href="index.html" th:href="@{/index}"> Back to front page </a>
-        </div>
+    <a href="/" th:href="@{/}">
+        <button>Tilbage til forsiden</button>
+    </a>
 
 </div>
 </body>
