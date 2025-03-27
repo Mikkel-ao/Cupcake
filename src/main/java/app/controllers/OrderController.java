@@ -39,7 +39,7 @@ public class OrderController {
             ctx.attribute("orderDetails", orderDetails);
             ctx.attribute("orderId", orderId);
 
-            ctx.render("orderDetails.html");
+            ctx.render("orderdetails.html");
 
         } catch (Exception e){
             ctx.status(500).result(e.getMessage());
