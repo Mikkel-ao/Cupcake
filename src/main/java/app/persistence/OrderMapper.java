@@ -38,7 +38,7 @@ public class OrderMapper {
 
             return orderDetailsList;
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve order details for order ID: " + orderId);
+            throw new DatabaseException("Kunne ikke hente ordredetaljer for ordre med ordrenummer: " + orderId + "!");
         }
     }
 
@@ -54,10 +54,10 @@ public class OrderMapper {
             if (rs.next()) {
                 return rs.getString("bottom_name");
             } else {
-                throw new DatabaseException("Bottom not found for ID: " + bottomId);
+                throw new DatabaseException("Bottom med ID: " + bottomId + " blev ikke fundet!");
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve bottom name: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke hente navn på bottom!", e.getMessage());
         }
     }
 
@@ -73,10 +73,10 @@ public class OrderMapper {
             if (rs.next()) {
                 return rs.getString("topping_name");
             } else {
-                throw new DatabaseException("Topping not found for ID: " + toppingId);
+                throw new DatabaseException("Topping med ID: " + toppingId + " blev ikke fundet!");
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve topping name: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke hente navn på topping!", e.getMessage());
         }
     }
 
@@ -95,10 +95,10 @@ public class OrderMapper {
             if (rs.next()) {
                 return rs.getDouble("price");
             } else {
-                throw new DatabaseException("Topping not found: " + toppingName);
+                throw new DatabaseException("Topping blev ikke fundet: " + toppingName);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve topping price: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke hente pris på topping!", e.getMessage());
         }
     }
 
@@ -115,10 +115,10 @@ public class OrderMapper {
             if (rs.next()) {
                 return rs.getDouble("price");
             } else {
-                throw new DatabaseException("Bottom not found: " + bottomName);
+                throw new DatabaseException("Bottom blev ikke fundet: " + bottomName);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve bottom price: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke hente pris på bottom!", e.getMessage());
         }
     }
 
@@ -132,7 +132,7 @@ public class OrderMapper {
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to delete order.", e.getMessage());
+            throw new DatabaseException("Kunne ikke slette ordren!", e.getMessage());
         }
     }
 
@@ -151,10 +151,10 @@ public class OrderMapper {
             if (rs.next()) {
                 return rs.getInt("bottom_id");
             } else {
-                throw new DatabaseException("Bottom not found: " + bottomName);
+                throw new DatabaseException("Bottom blev ikke fundet: " + bottomName);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve bottom ID: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke hente bottom ID", e.getMessage());
         }
     }
 
@@ -170,10 +170,10 @@ public class OrderMapper {
             if (rs.next()) {
                 return rs.getInt("topping_id");
             } else {
-                throw new DatabaseException("Topping not found: " + toppingName);
+                throw new DatabaseException("Topping blev ikke fundet: " + toppingName);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve topping ID: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke hente topping ID", e.getMessage());
         }
     }
 
@@ -193,7 +193,7 @@ public class OrderMapper {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to save order detail: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke gemme ordredetaljerne!", e.getMessage());
         }
     }
 
@@ -213,10 +213,10 @@ public class OrderMapper {
             if (rs.next()) {
                 return rs.getInt(1);
             } else {
-                throw new DatabaseException("Failed to create order");
+                throw new DatabaseException("Kunne ikke oprette ordren, da ingen genereret nøgle blev fundet!");
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to create order: " + e.getMessage());
+            throw new DatabaseException("Kunne ikke oprette ordren!", e.getMessage());
         }
     }
 
@@ -246,7 +246,7 @@ public class OrderMapper {
                     "GROUP BY orders.order_id, users.email, orders.order_date\n" +
                     "ORDER BY orders.order_id";
         } else {
-            throw new DatabaseException("Invalid role!");
+            throw new DatabaseException("Ugyldig rolle!");
         }
 
         try (
@@ -261,17 +261,14 @@ public class OrderMapper {
             {
                 int orderId = rs.getInt("order_id");
                 String email = rs.getString("email");
-                //String bottomName = rs.getString("bottom_name");
-                //String toppingName = rs.getString("topping_name");
                 Timestamp timestamp = rs.getTimestamp("order_date");
                 double totalPrice = rs.getDouble("total_price");
-                //int quantity = rs.getInt("quantity");
                 orderList.add(new UserAndOrderDTO(orderId, email, timestamp, totalPrice));
             }
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Fejl!!!!", e.getMessage());
+            throw new DatabaseException("Kunne ikke hente ordrerne!", e.getMessage());
         }
         return orderList;
     }
@@ -297,7 +294,7 @@ public class OrderMapper {
                     "JOIN cupcake_toppings ON cupcake_toppings.topping_id = order_details.topping_id " +
                     "WHERE users.user_id = ? AND orders.order_id = ?";
         } else {
-            throw new DatabaseException("Invalid role!");
+            throw new DatabaseException("Ugyldig rolle!");
         }
 
         List<BasketItemDTO> orderDetailsList = new ArrayList<>();
@@ -321,7 +318,7 @@ public class OrderMapper {
                 orderDetailsList.add(new BasketItemDTO(0, bottomName, 0, toppingName, quantity, price));
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to get order details.", e.getMessage());
+            throw new DatabaseException("Kunne ikke hente ordrerdetaljer!", e.getMessage());
         }
 
         return orderDetailsList;
