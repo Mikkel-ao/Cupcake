@@ -6,6 +6,11 @@
 <body>
 <h1>Kvittering</h1>
 <h2>Tak for at handle hos Olsker!</h2>
+
+<div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <p>Ordrer ID: <span th:text="${orderId}"></span></p>
 <ul>
     <li th:each="item : ${orderDetails}">

@@ -11,6 +11,10 @@
     <a href="index.html" th:href="@{/index}"> Back to front page </a>
 </div>
 
+<div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <body>
 <form class="generic-form" method="post">
     <table class="order-table">

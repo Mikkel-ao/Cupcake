@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Order Details</title>
+    <title>Ordredetaljer</title>
 </head>
 <body>
-<h1>Order Details for Order #<span th:text="${orderId}"></span></h1>
+<h1>Ordredetaljer #<span th:text="${orderId}"></span></h1>
+
+<div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <table>
     <thead>
     <tr>
@@ -23,6 +28,6 @@
     </tr>
     </tbody>
 </table>
-<a href="/orders" th:href="@{/orders}">Back to Orders</a>
+<a href="/orders" th:href="@{/orders}">Tilbage til alle ordrer</a>
 </body>
 </html>

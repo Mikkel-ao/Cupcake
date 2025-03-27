@@ -213,7 +213,7 @@ public class OrderMapper {
             if (rs.next()) {
                 return rs.getInt(1);
             } else {
-                throw new DatabaseException("Failed to create order, no ID generated.");
+                throw new DatabaseException("Failed to create order");
             }
         } catch (SQLException e) {
             throw new DatabaseException("Failed to create order: " + e.getMessage());
@@ -297,7 +297,7 @@ public class OrderMapper {
                     "JOIN cupcake_toppings ON cupcake_toppings.topping_id = order_details.topping_id " +
                     "WHERE users.user_id = ? AND orders.order_id = ?";
         } else {
-            throw new DatabaseException("Invalid!");
+            throw new DatabaseException("Invalid role!");
         }
 
         List<BasketItemDTO> orderDetailsList = new ArrayList<>();
@@ -321,7 +321,7 @@ public class OrderMapper {
                 orderDetailsList.add(new BasketItemDTO(0, bottomName, 0, toppingName, quantity, price));
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to fetch order details.", e.getMessage());
+            throw new DatabaseException("Failed to get order details.", e.getMessage());
         }
 
         return orderDetailsList;

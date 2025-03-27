@@ -3,6 +3,7 @@ package app.controllers;
 import app.DTO.BasketItemDTO;
 import app.DTO.UserAndOrderDTO;
 import app.entities.OrderDetails;
+import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
@@ -44,8 +45,9 @@ public class OrderController {
             ctx.sessionAttribute("basket", basket);
 
             ctx.redirect("/checkout");
-        } catch (Exception e) {
-            ctx.status(500).result("Failed to remove item form basket" + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            ctx.attribute("errorMessage", "Noget gik galt! Prøv igen eller annullér ordrer og start forfra!");
+            ctx.render("checkout.html");
         }
     }
 
@@ -53,19 +55,22 @@ public class OrderController {
         try{
             String role = ctx.sessionAttribute("role");
             if(!"admin".equals(role)) {
-                ctx.status(403).result("Access denied");
+                ctx.attribute("errorMessage", "Du kan ikke slette, da du ikke er admin!");
+                ctx.render("/index.html");
                 return;
             }
             int orderId =Integer.parseInt(ctx.queryParam("orderId"));
 
             boolean isDeleted = OrderMapper.deleteOrderById(connectionPool, orderId);
-            if(isDeleted) {
-                ctx.redirect("/orders");
+            if(!isDeleted) {
+                ctx.attribute("errorMessage", "Ordre blev ikke fundet!");
+                ctx.render("orders.html");
             } else {
-                ctx.status(404).result("Order Not Found");
+                ctx.redirect("/orders");
             }
-        } catch (Exception e){
-            ctx.status(500).result("Failed to delete order: " + e.getMessage());
+        } catch (DatabaseException e) {
+            ctx.attribute("errorMessage", "Noget gik galt! Kunne ikke slette ordre fra database!");
+            ctx.render("orders.html");
         }
     }
 
@@ -82,8 +87,9 @@ public class OrderController {
 
             ctx.render("orderdetails.html");
 
-        } catch (Exception e){
-            ctx.status(500).result(e.getMessage());
+        } catch (DatabaseException e) {
+            ctx.attribute("errorMessage", "Noget gik galt! Kunne ikke hente ordredetaljerne fra databasen!");
+            ctx.render("index.html");
         }
     }
 
@@ -104,8 +110,9 @@ public class OrderController {
             ctx.attribute("orderDetails", orderDetails);
 
             ctx.render("receipt.html");
-        } catch (Exception e) {
-            ctx.status(500).result(e.getMessage());
+        } catch (DatabaseException e) {
+            ctx.attribute("errorMessage", "Noget gik galt! Kunne ikke hente kvitteringen!");
+            ctx.render("receipt.html");
         }
     }
 
@@ -113,13 +120,14 @@ public class OrderController {
 
         List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
         if (basket == null || basket.isEmpty()) {
-            ctx.status(400).result("Basket is empty");
+            ctx.attribute("errorMessage", "Kurven er tom!");
+            ctx.render("checkout.html");
             return;
         }
         try {
             Integer userId = ctx.sessionAttribute("userId");
             if (userId == null) {
-                ctx.attribute("errorMessage", "You must be logged in to place an order");
+                ctx.attribute("errorMessage", "Du skal være logget ind for at gennemføre et køb!");
                 ctx.render("checkout.html");
                 return;
             }
@@ -133,7 +141,8 @@ public class OrderController {
             double currentBalance = UserMapper.getUserBalance(connectionPool, userId);
 
             if (currentBalance < totalPrice) {
-                ctx.status(400).result("You do not have enough money");
+                ctx.attribute("errorMessage", "Du har ikke nok penge på din konto til at gennemføre køb! Indsæt penge eller fjern nogle varer fra kurven!");
+                ctx.render("index.html");
                 return;
             }
 
@@ -159,8 +168,9 @@ public class OrderController {
             ctx.attribute("orderDetails", orderDetails);
 
             ctx.render("receipt.html");
-        } catch (Exception e) {
-            ctx.status(500).result("Failed to process the order: " + e.getMessage());
+        } catch (DatabaseException e) {
+            ctx.attribute("errorMessage", "Kunne ikke gennemføre køb - prøv igen!");
+            ctx.render("checkout.html");
         }
     }
 
@@ -185,28 +195,32 @@ public class OrderController {
 
     private static void addToBasket(Context ctx, ConnectionPool connectionPool) {
 
+        try {
+            List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
+            if (basket == null) {
+                basket = new ArrayList<>();
+            }
 
-        List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
-        if (basket == null) {
-            basket = new ArrayList<>();
+
+            String bottomName = ctx.formParam("bottom");
+            String toppingName = ctx.formParam("topping");
+            int quantity = Integer.parseInt(ctx.formParam("quantity"));
+
+            int bottomId = OrderMapper.getBottomId(connectionPool, bottomName);
+            int toppingId = OrderMapper.getToppingId(connectionPool, toppingName);
+
+            double bottomPrice = OrderMapper.getBottomPrice(connectionPool, bottomName);
+            double toppingPrice = OrderMapper.getToppingPrice(connectionPool, toppingName);
+            double totalPrice = (bottomPrice + toppingPrice) * quantity;
+
+            BasketItemDTO basketItem = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, totalPrice);
+            basket.add(basketItem);
+            ctx.sessionAttribute("basket", basket);
+            ctx.redirect("/");
+        } catch (DatabaseException e) {
+            ctx.attribute("errorMessage", "Kunne ikke tilføje vare til indkøbskurv - prøv igen!");
+            ctx.render("index.html");
         }
-
-
-        String bottomName = ctx.formParam("bottom");
-        String toppingName = ctx.formParam("topping");
-        int quantity = Integer.parseInt(ctx.formParam("quantity"));
-
-        int bottomId = OrderMapper.getBottomId(connectionPool, bottomName);
-        int toppingId = OrderMapper.getToppingId(connectionPool, toppingName);
-
-        double bottomPrice = OrderMapper.getBottomPrice(connectionPool, bottomName);
-        double toppingPrice = OrderMapper.getToppingPrice(connectionPool, toppingName);
-        double totalPrice = (bottomPrice + toppingPrice) * quantity;
-
-        BasketItemDTO basketItem = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, totalPrice);
-        basket.add(basketItem);
-        ctx.sessionAttribute("basket", basket);
-        ctx.redirect("/");
     }
 
     private static void showAllOrders(Context ctx, ConnectionPool connectionPool) {
@@ -215,7 +229,7 @@ public class OrderController {
             String role = ctx.sessionAttribute("role");
 
             if (userId == null) {
-                ctx.attribute("errorMessage", "You must be logged in to view your orders");
+                ctx.attribute("errorMessage", "Du skal være logget ind for at se dine ordrer");
                 ctx.render("index.html");
                 return;
             }
@@ -227,8 +241,9 @@ public class OrderController {
 
 
             ctx.render("orders.html");
-        } catch (Exception e) {
-            ctx.status(500).result("An error occurred while fetching orders: " + e.getMessage());
+        } catch (DatabaseException e) {
+            ctx.attribute("errorMessage", "Kunne ikke vise dine ordrer!");
+            ctx.render("index.html");
         }
     }
 }
