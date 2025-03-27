@@ -58,7 +58,7 @@ public class UserController {
 
         try {
             UserMapper.createUser(email, password1, connectionPool);
-            ctx.attribute("message", "User created successfully. Please log in.");
+            ctx.attribute("message", "User created successfully.");
             ctx.render("/login.html");
         } catch (DatabaseException e) {
             ctx.attribute("message", "User already exists. Try again or log in.");

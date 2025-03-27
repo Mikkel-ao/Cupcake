@@ -24,9 +24,11 @@
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
 
-    <a href="/" th:href="@{/}">
-        <button>Tilbage til forsiden</button>
-    </a>
+    <div class="back-to-home">
+        <a href="/" th:href="@{/}">
+            <button>Tilbage til forsiden</button>
+        </a>
+    </div>
 
 </div>
 </body>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
 <head>
     <title>Receipt</title>
 </head>
@@ -15,13 +16,16 @@
         <span th:text="'Price: $' + ${item.price}"></span>
     </li>
 </ul>
-<a href="/" th:href="@{/}">
-    <button>Tilbage til forsiden</button>
-</a>
+<div class="back-to-home">
+    <a href="/" th:href="@{/}">
+        <button>Tilbage til forsiden</button>
+    </a>
+</div>
 
 <div class="email-on-page">
     <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
     Dette er min email på hver side</span>
 </div>
+
 </body>
 </html>
