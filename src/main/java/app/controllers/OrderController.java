@@ -27,6 +27,26 @@ public class OrderController {
         app.post("cancel-order", ctx -> cancelOrder(ctx));
         app.get("orderdetails", ctx -> viewOrderDetails(ctx, connectionPool));
         app.post("deleteorder", ctx -> deleteOrder(ctx, connectionPool));
+        app.post("removeitem", ctx -> removeBasketItem(ctx));
+    }
+
+    private static void removeBasketItem(Context ctx) {
+        try{
+            int bottomId = Integer.parseInt(ctx.queryParam("bottomId"));
+            int topId = Integer.parseInt(ctx.queryParam("toppingId"));
+
+            List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
+            if(basket == null){
+                ctx.status(400).result("Basket is empty!");
+                return;
+            }
+            basket.removeIf(item -> item.getBottomId() == bottomId && item.getToppingId() == topId);
+            ctx.sessionAttribute("basket", basket);
+
+            ctx.redirect("/checkout");
+        } catch (Exception e) {
+            ctx.status(500).result("Failed to remove item form basket" + e.getMessage());
+        }
     }
 
     private static void deleteOrder(Context ctx, ConnectionPool connectionPool) {
@@ -146,6 +166,7 @@ public class OrderController {
 
 
     private static void viewBasket(Context ctx, ConnectionPool connectionPool) {
+
         List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
         if (basket == null) {
             basket = new ArrayList<>();
