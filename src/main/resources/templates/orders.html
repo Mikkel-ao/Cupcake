@@ -30,6 +30,11 @@
             <td th:text="${order.email}"></td>
             <td th:text="${order.orderDate}"></td>
             <td th:text="${order.totalPrice}"></td>
+            <td>
+                <form th:if="${role == 'admin'}" method="post">
+                    <button type="submit" formaction="/deleteorder" th:formaction="@{/deleteorder(orderId=${order.orderId})}">Slet ordrer</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
