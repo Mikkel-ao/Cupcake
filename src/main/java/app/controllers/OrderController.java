@@ -9,8 +9,6 @@ import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import jakarta.servlet.http.HttpSession;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +80,6 @@ public class OrderController {
             UserMapper.updateUserBalance(connectionPool, userId, newBalance);
 
 
-
             int orderId = OrderMapper.createOrder(connectionPool, userId);
 
 
@@ -149,7 +146,6 @@ public class OrderController {
 
             int userId = ctx.sessionAttribute("userId");
             String role = ctx.sessionAttribute("role");
-
 
 
             List<UserAndOrderDTO> orderList = OrderMapper.getOrdersByRole(connectionPool, userId, role);

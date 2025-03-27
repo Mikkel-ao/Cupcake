@@ -8,11 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import app.persistence.ConnectionPool;
 
 public class UserMapper {
 
@@ -65,6 +62,7 @@ public class UserMapper {
             throw new DatabaseException(msg, e.getMessage());
         }
     }
+
     public static List<UserDTO> getAllUsers(ConnectionPool connectionPool) throws DatabaseException {
         List<UserDTO> customersList = new ArrayList<>();
         String sql = "SELECT user_id, email, balance FROM users";
@@ -73,14 +71,14 @@ public class UserMapper {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery()
-                ){
-            while (rs.next()){
+        ) {
+            while (rs.next()) {
                 int userId = rs.getInt("user_id");
                 String email = rs.getString("email");
                 double balance = rs.getDouble("balance");
-                customersList.add(new UserDTO(userId,email,balance));
+                customersList.add(new UserDTO(userId, email, balance));
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DatabaseException("Database Error", e.getMessage());
         }
         return customersList;
@@ -122,5 +120,4 @@ public class UserMapper {
             throw new DatabaseException("Failed to update user balance: " + e.getMessage());
         }
     }
-
 }
