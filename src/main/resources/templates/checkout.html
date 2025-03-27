@@ -5,7 +5,14 @@
     <title>Checkout</title>
 </head>
 <body>
+<a href="/login" th:href="@{/login}" th:if="${session.currentUser == null}"><button>Login / Opret</button></a>
+
 <h1>Din Indkøbskurv</h1>
+
+<div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <ul>
     <li th:each="item : ${basket}">
         <span th:text="'Bottom: ' + ${item.bottomName}"></span>
