@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Your Basket</title>
+    <title>Checkout</title>
 </head>
 <body>
-<h1>Your Basket</h1>
+<h1>Din Indkøbskurv</h1>
 <ul>
     <li th:each="item : ${basket}">
         <span th:text="'Bottom: ' + ${item.bottomName}"></span>
@@ -19,19 +19,15 @@
     <span th:text="${totalPrice}"></span>
 </p>
 
+<a href="/" th:href="@{/}"><button>Tilbage</button></a>
 
-<a href="/" th:href="@{/}">
-    <button>Tilbage</button>
-</a>
 <form method="post">
-    <button type="submit" formaction="/cancel-order" th:formaction="@{/cancel-order}">
-        Annullér ordrer
-    </button>
+    <button type="submit" formaction="/cancel-order" th:formaction="@{/cancel-order}">Annullér ordrer</button>
 </form>
+
 <form method="post">
-    <button type="submit" formaction="/checkout" th:formaction="@{/checkout}">
-        Køb
-    </button>
+    <button type="submit" formaction="/checkout" th:formaction="@{/checkout}">Køb</button>
 </form>
+
 </body>
 </html>
