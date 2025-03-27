@@ -1,7 +1,6 @@
 package app.controllers;
 
 import app.DTO.BasketItemDTO;
-import app.DTO.BasketOrder;
 import app.DTO.UserAndOrderDTO;
 import app.entities.OrderDetails;
 import app.persistence.ConnectionPool;
