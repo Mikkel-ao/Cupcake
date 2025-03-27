@@ -9,6 +9,8 @@ import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import jakarta.servlet.http.HttpSession;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,25 @@ public class OrderController {
         app.post("checkout", ctx -> checkout(ctx, connectionPool));
         app.get("receipt", ctx -> showReceipt(ctx, connectionPool));
         app.post("cancel-order", ctx -> cancelOrder(ctx));
+        app.get("orderdetails", ctx -> viewOrderDetails(ctx, connectionPool));
+    }
+
+    private static void viewOrderDetails(Context ctx, ConnectionPool connectionPool) {
+        try{
+            String role = ctx.sessionAttribute("role");
+            int userId = ctx.sessionAttribute("userId");
+            int orderId = Integer.parseInt(ctx.queryParam("orderId"));
+
+            List<BasketItemDTO> orderDetails = OrderMapper.getOrderDetails(connectionPool, role, userId, orderId);
+
+            ctx.attribute("orderDetails", orderDetails);
+            ctx.attribute("orderId", orderId);
+
+            ctx.render("orderDetails.html");
+
+        } catch (Exception e){
+            ctx.status(500).result(e.getMessage());
+        }
     }
 
     private static void cancelOrder(Context ctx) {
@@ -78,6 +99,7 @@ public class OrderController {
 
             double newBalance = currentBalance - totalPrice;
             UserMapper.updateUserBalance(connectionPool, userId, newBalance);
+
 
 
             int orderId = OrderMapper.createOrder(connectionPool, userId);
@@ -151,6 +173,7 @@ public class OrderController {
 
             int userId = ctx.sessionAttribute("userId");
             String role = ctx.sessionAttribute("role");
+
 
 
             List<UserAndOrderDTO> orderList = OrderMapper.getOrdersByRole(connectionPool, userId, role);

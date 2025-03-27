@@ -81,6 +81,8 @@ public class OrderMapper {
     }
 
 
+
+
     public static double getToppingPrice(ConnectionPool connectionPool, String toppingName) throws DatabaseException {
         String sql = "SELECT price FROM cupcake_toppings WHERE topping_name = ?";
 
@@ -119,6 +121,7 @@ public class OrderMapper {
             throw new DatabaseException("Failed to retrieve bottom price: " + e.getMessage());
         }
     }
+
 
 
     public static int getBottomId(ConnectionPool connectionPool, String bottomName) throws DatabaseException {
@@ -160,6 +163,7 @@ public class OrderMapper {
     }
 
 
+
     public static void saveOrderDetail(ConnectionPool connectionPool, OrderDetails item) throws DatabaseException {
         String sql = "INSERT INTO order_details (order_id, bottom_id, topping_id, quantity, cupcake_price) VALUES (?, ?, ?, ?, ?)";
 
@@ -177,6 +181,7 @@ public class OrderMapper {
             throw new DatabaseException("Failed to save order detail: " + e.getMessage());
         }
     }
+
 
 
     public static int createOrder(ConnectionPool connectionPool, int userId) throws DatabaseException {
@@ -201,25 +206,30 @@ public class OrderMapper {
     }
 
 
-    public static List<UserAndOrderDTO> getOrdersByRole(ConnectionPool connectionPool, int userId, String role) throws DatabaseException {
+    public static List<UserAndOrderDTO> getOrdersByRole(ConnectionPool connectionPool, int userId, String role) throws DatabaseException
+    {
         List<UserAndOrderDTO> orderList = new ArrayList<>();
         String sql;
 
-        if ("admin".equals(role)) {
-            sql = "SELECT orders.order_id, users.email, cupcake_bottoms.bottom_name, cupcake_toppings.topping_name, orders.order_date, order_details.cupcake_price, order_details.quantity\n" +
-                    "FROM users\n" +
-                    "JOIN orders ON orders.user_id = users.user_id\n" +
-                    "JOIN order_details ON orders.order_id = order_details.order_id\n" +
-                    "JOIN cupcake_bottoms ON cupcake_bottoms.bottom_id = order_details.bottom_id\n" +
-                    "JOIN cupcake_toppings ON cupcake_toppings.topping_id = order_details.topping_id";
-        } else if ("customer".equals(role)) {
-            sql = "SELECT orders.order_id, users.email, cupcake_bottoms.bottom_name, cupcake_toppings.topping_name, orders.order_date, order_details.cupcake_price, order_details.quantity\n" +
+        if("admin".equals(role)){
+            sql = "SELECT orders.order_id, users.email, orders.order_date,  SUM(DISTINCT order_details.cupcake_price * order_details.quantity) AS total_price\n" +
+                    "                    FROM users\n" +
+                    "                    JOIN orders ON orders.user_id = users.user_id\n" +
+                    "                    JOIN order_details ON orders.order_id = order_details.order_id\n" +
+                    "                    JOIN cupcake_bottoms ON cupcake_bottoms.bottom_id = order_details.bottom_id\n" +
+                    "                    JOIN cupcake_toppings ON cupcake_toppings.topping_id = order_details.topping_id\n" +
+                    "GROUP BY orders.order_id, users.email, orders.order_date\n" +
+                    "ORDER BY orders.order_id";
+        } else if ("customer".equals(role)){
+            sql = "SELECT orders.order_id, users.email, orders.order_date,  SUM(order_details.cupcake_price) AS total_price\n" +
                     "FROM users\n" +
                     "JOIN orders ON orders.user_id = users.user_id\n" +
                     "JOIN order_details ON orders.order_id = order_details.order_id\n" +
                     "JOIN cupcake_bottoms ON cupcake_bottoms.bottom_id = order_details.bottom_id\n" +
                     "JOIN cupcake_toppings ON cupcake_toppings.topping_id = order_details.topping_id\n" +
-                    "WHERE users.user_id = ?";
+                    "WHERE users.user_id = ? " +
+                    "GROUP BY orders.order_id, users.email, orders.order_date\n" +
+                    "ORDER BY orders.order_id";
         } else {
             throw new DatabaseException("Invalid role!");
         }
@@ -227,25 +237,80 @@ public class OrderMapper {
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
-        ) {
-            if ("customer".equals(role)) {
-                ps.setInt(1, userId);
-            }
+        )
+        {         if ("customer".equals(role)) {
+            ps.setInt(1, userId);
+        }
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int orderId = rs.getInt("order_id");
                 String email = rs.getString("email");
-                String bottomName = rs.getString("bottom_name");
-                String toppingName = rs.getString("topping_name");
+                //String bottomName = rs.getString("bottom_name");
+                //String toppingName = rs.getString("topping_name");
                 Timestamp timestamp = rs.getTimestamp("order_date");
-                int price = rs.getInt("cupcake_price");
-                int quantity = rs.getInt("quantity");
-                orderList.add(new UserAndOrderDTO(orderId, email, bottomName, toppingName, timestamp, price, quantity));
+                double totalPrice = rs.getDouble("total_price");
+                //int quantity = rs.getInt("quantity");
+                orderList.add(new UserAndOrderDTO(orderId, email, timestamp, totalPrice));
             }
-        } catch (SQLException e) {
-            throw new DatabaseException("Error!!!!", e.getMessage());
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Fejl!!!!", e.getMessage());
         }
         return orderList;
     }
+
+    public static List<BasketItemDTO> getOrderDetails(ConnectionPool connectionPool, String role, int userId, int orderId) throws DatabaseException {
+
+        String sql;
+
+        if("admin".equals(role)){
+            sql = "SELECT cupcake_bottoms.bottom_name, cupcake_toppings.topping_name, order_details.quantity, order_details.cupcake_price " +
+                    "FROM users " +
+                    "JOIN orders ON orders.user_id = users.user_id " +
+                    "JOIN order_details ON orders.order_id = order_details.order_id " +
+                    "JOIN cupcake_bottoms ON cupcake_bottoms.bottom_id = order_details.bottom_id " +
+                    "JOIN cupcake_toppings ON cupcake_toppings.topping_id = order_details.topping_id " +
+                    "WHERE orders.order_id = ?";
+        } else if ("customer".equals(role)) {
+            sql = "SELECT cupcake_bottoms.bottom_name, cupcake_toppings.topping_name, order_details.quantity, order_details.cupcake_price " +
+                    "FROM users " +
+                    "JOIN orders ON orders.user_id = users.user_id " +
+                    "JOIN order_details ON orders.order_id = order_details.order_id " +
+                    "JOIN cupcake_bottoms ON cupcake_bottoms.bottom_id = order_details.bottom_id " +
+                    "JOIN cupcake_toppings ON cupcake_toppings.topping_id = order_details.topping_id " +
+                    "WHERE users.user_id = ? AND orders.order_id = ?";
+        } else {
+            throw new DatabaseException("Invalid!");
+        }
+
+        List<BasketItemDTO> orderDetailsList = new ArrayList<>();
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            if("admin".equals(role)) {
+                ps.setInt(1, orderId);
+            } else if ("customer".equals(role)) {
+                ps.setInt(1, userId);
+                ps.setInt(2, orderId);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String bottomName = rs.getString("bottom_name");
+                String toppingName = rs.getString("topping_name");
+                int quantity = rs.getInt("quantity");
+                double price = rs.getDouble("cupcake_price");
+
+                orderDetailsList.add(new BasketItemDTO(0, bottomName, 0, toppingName, quantity, price));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to fetch order details.", e.getMessage());
+        }
+
+        return orderDetailsList;
+    }
+
 
 }
