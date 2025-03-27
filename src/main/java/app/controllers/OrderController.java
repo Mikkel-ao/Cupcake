@@ -51,6 +51,7 @@ public class OrderController {
     }
 
     private static void checkout(Context ctx, ConnectionPool connectionPool) {
+
         List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
         if (basket == null || basket.isEmpty()) {
             ctx.status(400).result("Basket is empty");
