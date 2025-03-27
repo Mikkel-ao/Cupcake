@@ -28,6 +28,11 @@
     <button>Log ind / Tilmeld</button>
 </a>
 
+
+<a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}">
+    <button>Log ud</button>
+</a>
+
 <a href="/checkout" th:href="@{/checkout}">
     <button>Indkøbskurv</button>
 </a>
