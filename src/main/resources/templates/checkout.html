@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Your Basket</title>
 </head>
 <body>
 <h1>Your Basket</h1>
 <ul>
     <li th:each="item : ${basket}">
-        <span th:text="'Bottom: ' + ${item.bottomName}"></span> -
-        <span th:text="'Topping: ' + ${item.toppingName}"></span> -
-        <span th:text="'Quantity: ' + ${item.quantity}"></span> -
+        <span th:text="'Bottom: ' + ${item.bottomName}"></span>
+        <span th:text="'Topping: ' + ${item.toppingName}"></span>
+        <span th:text="'Quantity: ' + ${item.quantity}"></span>
         <span th:text="'Price: ' + ${item.price}"></span>
     </li>
 </ul>
+
+<p><strong>Ordre total: </strong>
+    <span th:text="${totalPrice}"></span>
+</p>
+
+
 <a href="/" th:href="@{/}">
     <button>Tilbage</button>
 </a>

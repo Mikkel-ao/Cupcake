@@ -107,13 +107,18 @@ public class OrderController {
 
 
     private static void viewBasket(Context ctx, ConnectionPool connectionPool) {
-
-
-        List<BasketOrder> basket = ctx.sessionAttribute("basket");
+        List<BasketItemDTO> basket = ctx.sessionAttribute("basket");
         if (basket == null) {
             basket = new ArrayList<>();
         }
 
+        double totalPrice = 0;
+
+        for(BasketItemDTO order : basket) {
+            totalPrice += order.getPrice();
+        }
+
+        ctx.attribute("totalPrice", totalPrice);
         ctx.attribute("basket", basket);
         ctx.render("checkout.html");
     }

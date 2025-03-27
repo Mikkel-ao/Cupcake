@@ -26,6 +26,14 @@ public class BasketOrder {
         return quantity;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public double getTotalPrice() {
+        return quantity * price;
+    }
+
     @Override
     public String toString() {
         return quantity + " cupcake(s) with bottom " + bottom + " and topping " + topping + " - Price: " + price;
