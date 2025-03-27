@@ -26,6 +26,27 @@ public class OrderController {
         app.get("receipt", ctx -> showReceipt(ctx, connectionPool));
         app.post("cancel-order", ctx -> cancelOrder(ctx));
         app.get("orderdetails", ctx -> viewOrderDetails(ctx, connectionPool));
+        app.post("deleteorder", ctx -> deleteOrder(ctx, connectionPool));
+    }
+
+    private static void deleteOrder(Context ctx, ConnectionPool connectionPool) {
+        try{
+            String role = ctx.sessionAttribute("role");
+            if(!"admin".equals(role)) {
+                ctx.status(403).result("Access denied");
+                return;
+            }
+            int orderId =Integer.parseInt(ctx.queryParam("orderId"));
+
+            boolean isDeleted = OrderMapper.deleteOrderById(connectionPool, orderId);
+            if(isDeleted) {
+                ctx.redirect("/orders");
+            } else {
+                ctx.status(404).result("Order Not Found");
+            }
+        } catch (Exception e){
+            ctx.status(500).result("Failed to delete order: " + e.getMessage());
+        }
     }
 
     private static void viewOrderDetails(Context ctx, ConnectionPool connectionPool) {
@@ -39,7 +60,7 @@ public class OrderController {
             ctx.attribute("orderDetails", orderDetails);
             ctx.attribute("orderId", orderId);
 
-            ctx.render("orderDetails.html");
+            ctx.render("orderdetails.html");
 
         } catch (Exception e){
             ctx.status(500).result(e.getMessage());
@@ -177,7 +198,7 @@ public class OrderController {
 
             List<UserAndOrderDTO> orderList = OrderMapper.getOrdersByRole(connectionPool, userId, role);
 
-
+            ctx.attribute("role", role);
             ctx.attribute("orderList", orderList);
 
 

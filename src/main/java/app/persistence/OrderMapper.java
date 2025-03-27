@@ -122,6 +122,21 @@ public class OrderMapper {
         }
     }
 
+    public static boolean deleteOrderById(ConnectionPool connectionPool, int orderId) throws DatabaseException {
+        String sql = "DELETE FROM orders WHERE order_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to delete order.", e.getMessage());
+        }
+    }
+
+
 
 
     public static int getBottomId(ConnectionPool connectionPool, String bottomName) throws DatabaseException {
