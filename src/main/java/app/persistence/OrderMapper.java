@@ -11,13 +11,16 @@ import java.util.List;
 
 public class OrderMapper {
 
+
+    //Method for getting order details for a single order
     public static List<BasketItemDTO> getOrderDetailsByOrderId(ConnectionPool connectionPool, int orderId) throws DatabaseException {
+
         String sql = "SELECT bottom_id, topping_id, quantity, cupcake_price FROM order_details WHERE order_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, orderId);
+            ps.setInt(1, orderId); //Setting order id as the one
             ResultSet rs = ps.executeQuery();
 
             List<BasketItemDTO> orderDetailsList = new ArrayList<>();
