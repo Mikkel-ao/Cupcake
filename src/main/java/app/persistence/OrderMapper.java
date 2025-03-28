@@ -12,7 +12,7 @@ import java.util.List;
 public class OrderMapper {
 
 
-    //Method for getting order details for a single order
+    //Method for getting order details for a single order from database
     public static List<BasketItemDTO> getOrderDetailsByOrderId(ConnectionPool connectionPool, int orderId) throws DatabaseException {
 
         String sql = "SELECT bottom_id, topping_id, quantity, cupcake_price FROM order_details WHERE order_id = ?";
@@ -20,41 +20,46 @@ public class OrderMapper {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, orderId); //Setting order id as the one
+            ps.setInt(1, orderId); //Setting order id as the one from the parameter
             ResultSet rs = ps.executeQuery();
 
+            //creating list to hold instances of our DTO
             List<BasketItemDTO> orderDetailsList = new ArrayList<>();
+            //Iterating until there are no more rows in database
             while (rs.next()) {
+                //Assigning data retrieved from database query
                 int bottomId = rs.getInt("bottom_id");
                 int toppingId = rs.getInt("topping_id");
                 int quantity = rs.getInt("quantity");
                 double cupcakePrice = rs.getDouble("cupcake_price");
 
-
+                //Assigning data retrieved from two other mapper methods
                 String bottomName = getBottomNameById(connectionPool, bottomId);
                 String toppingName = getToppingNameById(connectionPool, toppingId);
 
-
+                //Adding each instance to the list
                 BasketItemDTO orderDetail = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, cupcakePrice);
                 orderDetailsList.add(orderDetail);
             }
-
+            //Returning the complete list of DTOs
             return orderDetailsList;
         } catch (SQLException e) {
             throw new DatabaseException("Kunne ikke hente ordredetaljer for ordre med ordrenummer: " + orderId + "!");
         }
     }
 
+    //Method for getting the name of the bottom part of the cupcake by its ID from database
     public static String getBottomNameById(ConnectionPool connectionPool, int bottomId) throws DatabaseException {
+
         String sql = "SELECT bottom_name FROM cupcake_bottoms WHERE bottom_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, bottomId);
+            ps.setInt(1, bottomId); //Setting bottom id as the one from the parameter
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
+            if (rs.next()) { //Returning the String of the column "bottom_name" from database (if it exists)
                 return rs.getString("bottom_name");
             } else {
                 throw new DatabaseException("Bottom med ID: " + bottomId + " blev ikke fundet!");
@@ -64,17 +69,18 @@ public class OrderMapper {
         }
     }
 
+    //Method for getting the name of the top part of the cupcake by its ID from database
     public static String getToppingNameById(ConnectionPool connectionPool, int toppingId) throws DatabaseException {
         String sql = "SELECT topping_name FROM cupcake_toppings WHERE topping_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, toppingId);
+            ps.setInt(1, toppingId); //Setting topping id as the one from the parameter
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getString("topping_name");
+                return rs.getString("topping_name"); //Returning the String of the column "topping_name" from database (if it exists)
             } else {
                 throw new DatabaseException("Topping med ID: " + toppingId + " blev ikke fundet!");
             }
@@ -85,18 +91,18 @@ public class OrderMapper {
 
 
 
-
+    //Method for getting the price of the topping part of cupcake from database
     public static double getToppingPrice(ConnectionPool connectionPool, String toppingName) throws DatabaseException {
         String sql = "SELECT price FROM cupcake_toppings WHERE topping_name = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, toppingName);
+            ps.setString(1, toppingName); //Setting "topping_name" as the String given as function argument!
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getDouble("price");
+                return rs.getDouble("price");  //Returning the price from database (if it exists)
             } else {
                 throw new DatabaseException("Topping blev ikke fundet: " + toppingName);
             }
@@ -105,18 +111,18 @@ public class OrderMapper {
         }
     }
 
-
+    //Method for getting the price of the bottom part of cupcake from database
     public static double getBottomPrice(ConnectionPool connectionPool, String bottomName) throws DatabaseException {
         String sql = "SELECT price FROM cupcake_bottoms WHERE bottom_name = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, bottomName);
+            ps.setString(1, bottomName); //Setting "bottom_name" as the String given as function argument!
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getDouble("price");
+                return rs.getDouble("price"); //Returning the price from database (if it exists)
             } else {
                 throw new DatabaseException("Bottom blev ikke fundet: " + bottomName);
             }
@@ -125,15 +131,17 @@ public class OrderMapper {
         }
     }
 
+
+    //Method for deleting a single order from database
     public static boolean deleteOrderById(ConnectionPool connectionPool, int orderId) throws DatabaseException {
         String sql = "DELETE FROM orders WHERE order_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, orderId);
+            ps.setInt(1, orderId); //Setting "order_id" in sql query as the one given as function argument!
 
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0;
+            int affectedRows = ps.executeUpdate(); //Executing query and saves the amount of rows was affected in local variable!
+            return affectedRows > 0; //Only returns true if at least 1 row was affected!
         } catch (SQLException e) {
             throw new DatabaseException("Kunne ikke slette ordren!", e.getMessage());
         }
@@ -141,18 +149,18 @@ public class OrderMapper {
 
 
 
-
+    //Method for getting the id of the bottom part of cupcake from database
     public static int getBottomId(ConnectionPool connectionPool, String bottomName) throws DatabaseException {
         String sql = "SELECT bottom_id FROM cupcake_bottoms WHERE bottom_name = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, bottomName);
+            ps.setString(1, bottomName); //Setting "bottom_name" in sql query as the one given as function argument!
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return rs.getInt("bottom_id");
+            if (rs.next()) { //Checking whether there is a row in database to retrieve data from
+                return rs.getInt("bottom_id"); //Returning the bottom_id
             } else {
                 throw new DatabaseException("Bottom blev ikke fundet: " + bottomName);
             }
@@ -161,17 +169,18 @@ public class OrderMapper {
         }
     }
 
+    //Method for getting the id of the topping part of cupcake from database
     public static int getToppingId(ConnectionPool connectionPool, String toppingName) throws DatabaseException {
         String sql = "SELECT topping_id FROM cupcake_toppings WHERE topping_name = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, toppingName);
+            ps.setString(1, toppingName); //Setting "topping_name" in sql query as the one given as function argument!
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return rs.getInt("topping_id");
+            if (rs.next()) { //Checking whether there is a row in database to retrieve data from
+                return rs.getInt("topping_id"); //Returning the bottom_id
             } else {
                 throw new DatabaseException("Topping blev ikke fundet: " + toppingName);
             }
@@ -181,13 +190,14 @@ public class OrderMapper {
     }
 
 
-
+    //Method for saving order details in "order_details" table in database
     public static void saveOrderDetail(ConnectionPool connectionPool, OrderDetails item) throws DatabaseException {
         String sql = "INSERT INTO order_details (order_id, bottom_id, topping_id, quantity, cupcake_price) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
+            //Using the getter methods of "item" given as argument, to set values and execute insert into database
             ps.setInt(1, item.getOrderId());
             ps.setInt(2, item.getBottomId());
             ps.setInt(3, item.getToppingId());
@@ -201,20 +211,20 @@ public class OrderMapper {
     }
 
 
-
+    //Method for creating an order and retrieve the auto-generated order id
     public static int createOrder(ConnectionPool connectionPool, int userId) throws DatabaseException {
         String sql = "INSERT INTO orders (user_id, order_date) VALUES (?, ?)";
 
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) { //Instructs database to return auto-generated keys (user_id) when executing insert statement!
 
-            ps.setInt(1, userId);
-            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
-            ps.executeUpdate();
+            ps.setInt(1, userId); //Setting "user_id" in sql query as the one given as function argument!
+            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis())); //Setting "order_date" in sql query (which is datatype TimeStamp) to the current time!
+            ps.executeUpdate(); //Executing sql query
 
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getInt(1);
+            ResultSet rs = ps.getGeneratedKeys(); //Retrieving the auto-generated key from the database
+            if (rs.next()) { //Check if they key was in fact returned!
+                return rs.getInt(1); //Returning key of the first column in database (which is the order id)
             } else {
                 throw new DatabaseException("Kunne ikke oprette ordren, da ingen genereret nøgle blev fundet!");
             }
@@ -223,12 +233,13 @@ public class OrderMapper {
         }
     }
 
-
+    //Method for getting orders corresponding to the role of the logged-in user!
     public static List<UserAndOrderDTO> getOrdersByRole(ConnectionPool connectionPool, int userId, String role) throws DatabaseException
     {
         List<UserAndOrderDTO> orderList = new ArrayList<>();
         String sql;
 
+        //Sql queries depending on the "role" of the logged-in user given in the argument!
         if("admin".equals(role)){
             sql = "SELECT orders.order_id, users.email, orders.order_date,  SUM(DISTINCT order_details.cupcake_price * order_details.quantity) AS total_price\n" +
                     "                    FROM users\n" +
@@ -256,11 +267,11 @@ public class OrderMapper {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
         )
-        {         if ("customer".equals(role)) {
+        {         if ("customer".equals(role)) { //if the logged-in user is a "customer" we need to insert the user_id in sql query, to only get the right orders!
             ps.setInt(1, userId);
         }
             ResultSet rs = ps.executeQuery();
-            while (rs.next())
+            while (rs.next()) //Iterating through the rows of the database, creating instances of our DTO class, adding them to a list and return the list in the end!
             {
                 int orderId = rs.getInt("order_id");
                 String email = rs.getString("email");
@@ -279,7 +290,7 @@ public class OrderMapper {
     public static List<BasketItemDTO> getOrderDetails(ConnectionPool connectionPool, String role, int userId, int orderId) throws DatabaseException {
 
         String sql;
-
+        //Sql queries depending on the "role" of the logged-in user given in the argument!
         if("admin".equals(role)){
             sql = "SELECT cupcake_bottoms.bottom_name, cupcake_toppings.topping_name, order_details.quantity, order_details.cupcake_price " +
                     "FROM users " +
@@ -304,6 +315,7 @@ public class OrderMapper {
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
+            //If statements, which confirms roles, and uses function arguments to complete the sql queries!
             if("admin".equals(role)) {
                 ps.setInt(1, orderId);
             } else if ("customer".equals(role)) {
@@ -312,7 +324,7 @@ public class OrderMapper {
             }
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while (rs.next()) { //Iterating through the rows of the database, creating instances of our DTO class, adding them to a list and return the list in the end!
                 String bottomName = rs.getString("bottom_name");
                 String toppingName = rs.getString("topping_name");
                 int quantity = rs.getInt("quantity");
