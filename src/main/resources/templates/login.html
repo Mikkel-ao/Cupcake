@@ -17,9 +17,9 @@
         <br>
     </header>
     <form class="generic-form" method="post" action="/login">
-        <input type="email" name="email" placeholder="Enter email" required/>
-        <input type="password" name="password" placeholder="Enter password" required/>
-        <button type="submit">Login</button>
+        <input type="email" name="email" placeholder="Indtast email" required/>
+        <input type="password" name="password" placeholder="Indtast kodeord" required/>
+        <button type="submit">Log ind</button>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
 
