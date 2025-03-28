@@ -5,16 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 
-<body>
+<body class="background-color">
 <div class="page-container">
     <header>
-        <a href="index.html" th:href="@{/}">
-            <img class="logo" src="../public/images/cupcakelogo.png" th:src="@{/images/cupcakelogo.png}"
-                 alt="Cup cake logo">
+        <br>
+        <a href="login.html" th:href="@{/login}">
+            <img class="logo" src="/public/images/olsker_cupcakes_200x200.png"
+                 th:src="@{/images/olsker_cupcakes_200x200.png}" alt="cupcakelogo">
         </a>
     </header>
-
-    <h1>Here you can create a profile</h1>
 
     <form class="generic-form" method="post">
         <input type="email" name="email" placeholder="Enter email" required/>
