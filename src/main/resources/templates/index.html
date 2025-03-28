@@ -23,7 +23,6 @@
     <button>Ordrer</button>
 </a>
 
-
 <a href="/customer" th:href="@{/customer}" th:if="${session.role == 'admin'}">
     <button>Kunder</button>
 </a>
@@ -31,7 +30,6 @@
 <a href="/login" th:href="@{/login}" th:if="${session.currentUser == null}">
     <button>Log ind / Opret</button>
 </a>
-
 
 <a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}">
     <button>Log ud</button>
@@ -41,26 +39,33 @@
     <button>Indkøbskurv</button>
 </a>
 
-
 <h2>Velkommen ombord</h2>
 <p>Øens bedste cupcakes. Vælg og bestil her: </p>
 
 <form action="/add-to-basket" method="post" th:action="@{/add-to-basket}">
     <div class="dropdown">
         <label for="bottom">Vælg bund:</label>
-        <select name="bottom" id="bottom" required> <!-- "required" makes it impossible to submit before choosing an option! -->
-            <option value="Chocolate">Chocolate</option>
-            <option value="Vanilla">Vanilla</option>
-            <option value="Nutmeg">Nutmeg</option>
+        <select name="bottom" id="bottom" required>
+            <option value="Chokolade">Chokolade</option>
+            <option value="Vanilje">Vanilje</option>
+            <option value="Muskatnød">Muskatnød</option>
+            <option value="Pistacie">Pistacie</option>
+            <option value="Mandel">Mandel</option>
         </select>
     </div>
 
     <div class="dropdown">
         <label for="topping">Vælg topping:</label>
         <select name="topping" id="topping" required>
-            <option value="Chocolate">Chocolate</option>
-            <option value="Blueberry">Blueberry</option>
-            <option value="Raspberry">Raspberry</option>
+            <option value="Chokolade">Chokolade</option>
+            <option value="Blåbær">Blåbær</option>
+            <option value="Hindbær">Hindbær</option>
+            <option value="Sprød">Sprød</option>
+            <option value="Jordbær">Jordbær</option>
+            <option value="Rom/Rosin">Rom/Rosin</option>
+            <option value="Appelsin">Appelsin</option>
+            <option value="Citron">Citron</option>
+            <option value="Blåskimmelost">Blåskimmelost</option>
         </select>
     </div>
 
@@ -70,6 +75,9 @@
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
+            <option value="4">3</option>
+            <option value="5">3</option>
+
         </select>
     </div>
 

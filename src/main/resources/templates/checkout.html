@@ -15,10 +15,10 @@
 
 <ul>
     <li th:each="item : ${basket}">
-        <span th:text="'Bottom: ' + ${item.bottomName}"></span>
+        <span th:text="'Bund: ' + ${item.bottomName}"></span>
         <span th:text="'Topping: ' + ${item.toppingName}"></span>
-        <span th:text="'Quantity: ' + ${item.quantity}"></span>
-        <span th:text="'Price: ' + ${item.price}"></span>
+        <span th:text="'Antal: ' + ${item.quantity}"></span>
+        <span th:text="'Pris: ' + ${item.price}"></span>
         <form method="post">
             <button type="submit" th:formaction="@{/removeitem(bottomId=${item.bottomId}, toppingId=${item.toppingId})}">Fjern</button>
         </form>

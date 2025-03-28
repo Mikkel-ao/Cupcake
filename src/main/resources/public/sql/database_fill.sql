@@ -8,24 +8,24 @@ VALUES
 -- Insert sample cupcake bottoms
 INSERT INTO cupcake_bottoms (bottom_name, price)
 VALUES
-    ('Chocolate', 5.00),
-    ('Vanilla', 5.00),
-    ('Nutmeg', 2.00),
-    ('Pistachio', 6.00),
-    ('Almond', 7.00);
+    ('Chokolade', 5.00),
+    ('Vanilje', 5.00),
+    ('Muskatnød', 2.00),
+    ('Pistacie', 6.00),
+    ('Mandel', 7.00);
 
 -- Insert sample cupcake toppings
 INSERT INTO cupcake_toppings (topping_name, price)
 VALUES
-    ('Chocolate', 5.00),
-    ('Blueberry', 5.00),
-    ('Raspberry', 5.00),
-    ('Crispy', 6.00),
-    ('Strawberry', 6.00),
-    ('Rum/Raisin', 7.00),
-    ('Orange', 8.00),
-    ('Lemon', 8.00),
-    ('Blue cheese', 9.00);
+    ('Chokolade', 5.00),
+    ('Blåbær', 5.00),
+    ('Hindbær', 5.00),
+    ('Sprød', 6.00),
+    ('Jordbær', 6.00),
+    ('Rom/Rosin', 7.00),
+    ('Appelsin', 8.00),
+    ('Citron', 8.00),
+    ('Blåskimmelost', 9.00);
 
 -- Insert sample orders
 INSERT INTO orders (user_id, order_date)
@@ -37,7 +37,7 @@ VALUES
 -- Insert sample order details
 INSERT INTO order_details (order_id, bottom_id, topping_id, quantity, cupcake_price)
 VALUES
-    (1, 2, 1, 2, 10.00), -- 2 Vanilla cupcakes with Chocolate topping (5 + 5) * 2
-    (1, 1, 3, 1, 10.00), -- 1 Chocolate cupcake with Raspberry topping (5 + 5)
-    (2, 3, 4, 3, 24.00), -- 3 Nutmeg cupcakes with Crispy topping (2 + 6) * 3
-    (3, 4, 5, 1, 13.00); -- 1 Pistachio cupcake with Strawberry topping (6 + 7)
+    (1, 2, 1, 2, 10.00), -- 2 Vanilje cupcakes med Chokolade topping (5 + 5) * 2
+    (1, 1, 3, 1, 10.00), -- 1 Chokolade cupcake med Hindbær topping (5 + 5)
+    (2, 3, 4, 3, 24.00), -- 3 Muskatnød cupcakes med Sprød topping (2 + 6) * 3
+    (3, 4, 5, 1, 13.00); -- 1 Pistacie cupcake med Jordbær topping (6 + 7)
