@@ -18,7 +18,7 @@ import java.util.List;
 public class OrderController {
 
 
-    //
+    //Adding routes
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
 
         app.post("orders", ctx -> showAllOrders(ctx, connectionPool));
