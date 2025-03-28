@@ -67,6 +67,21 @@ body {
     border: none;
 }
 
+.rounded-btn {
+    border: none;
+    background-color: white;
+    color: black;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+
+}
+
 
  /* Style The Dropdown Button */
  .dropbtn {
@@ -131,4 +146,13 @@ body {
     height: 100%; /* takes the 100 % height of its container (.box div)*/
 }
 
+.footer-side {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between buttons */
+}
+
+.footer div{
+    display: flex;
+}
 

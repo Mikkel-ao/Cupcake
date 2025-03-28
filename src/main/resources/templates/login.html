@@ -23,16 +23,16 @@
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
 
-    <footer>
-        <div class="create-user-form">
+    <footer class="footer-side">
+        <div>
             <a href="createuser.html" th:href="@{/createuser}">
-                <button>Opret bruger</button>
+                <button class="rounded-btn">Opret bruger</button>
             </a>
         </div>
 
         <div>
             <a href="/" th:href="@{/}">
-                <button>Tilbage til forsiden</button>
+                <button class="rounded-btn">Til forsiden</button>
             </a>
         </div>
     </footer>

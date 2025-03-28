@@ -16,15 +16,15 @@
     </header>
 
     <form class="generic-form" method="post">
-        <input type="email" name="email" placeholder="Enter email" required/>
-        <input type="password" name="password1" placeholder=" Enter password" required/>
-        <input type="password" name="password2" placeholder=" Enter password again" required/>
-        <button type="submit" formaction="/createuser">Create profile</button>
+        <input type="email" name="email" placeholder="Indtast email" required/>
+        <input type="password" name="password1" placeholder="Indtast kodeord" required/>
+        <input type="password" name="password2" placeholder="Gentag kodeord" required/>
+        <button type="submit" formaction="/createuser">Opret bruger</button>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
 
     <a href="/" th:href="@{/}">
-        <button>Tilbage til forsiden</button>
+        <button class="rounded-btn">Til forsiden</button>
     </a>
 
 </div>
