@@ -22,56 +22,74 @@ public class UserController {
         app.get("/logout", ctx -> logout(ctx));
     }
 
+    //Method for logging out
     private static void logout(Context ctx) {
+        //Gets the current session and destroys it. Removing all stored attributes.
         ctx.req().getSession().invalidate();
+        //After destroying the session it returns to the index(main page)
         ctx.redirect("/");
     }
 
+    //Method for logging in
     private static void login(Context ctx, ConnectionPool connectionPool) {
+        //Retrieving the value of the form field "email" and "password" from the login.html page
         String username = ctx.formParam("email");
         String password = ctx.formParam("password");
 
+        //Validating user credentials (email and password), storing in a User object
         try {
             User user = UserMapper.login(username, password, connectionPool);
 
+            //If successful, user details are stored in the session
             ctx.sessionAttribute("currentUser", user.getUserId());
             ctx.sessionAttribute("userId", user.getUserId());
             ctx.sessionAttribute("role", user.getRole());
             ctx.sessionAttribute("email", user.getEmail());
             ctx.redirect("/index");
         } catch (DatabaseException e) {
+            //If login fails, error message shown to user and login page re-rendered
             ctx.attribute("message", "Login failed. Please try again.");
             ctx.render("/login.html");
         }
     }
 
+    //Method for creating a user/customer
     private static void createUser(Context ctx, ConnectionPool connectionPool) {
+        //Retrieving the value of the form field "email", "password1" and "password2 from the createuser.html page
         String email = ctx.formParam("email");
         String password1 = ctx.formParam("password1");
         String password2 = ctx.formParam("password2");
 
+        //If passwords don't match, message sent to User to let them know
         if (!password1.equals(password2)) {
             ctx.attribute("message", "Passwords do not match, try again.");
             ctx.render("/createuser.html");
             return;
         }
 
+        //Checking if a user already exists or not
         try {
-            UserMapper.createUser(email, password1, connectionPool);
+            //If email is unique, user is created, success message sent to user and user is sent to login page
+            UserMapper.createUser(password1, email, connectionPool);
             ctx.attribute("message", "User created successfully. Please log in.");
             ctx.render("/login.html");
         } catch (DatabaseException e) {
+            //If user already exists, message sent to say that a user with those credentials already exists, try again
             ctx.attribute("message", "User already exists. Try again or log in.");
             ctx.render("/createuser.html");
         }
     }
 
+    //Method for showing all customers
     private static void showAllCustomers(Context ctx, ConnectionPool connectionPool) {
+        //Fetching all users/customers in from the database
         try {
+            //If successful, a List of user/customer data is created and displayed only on the customer.html page
             List<UserDTO> customersList = UserMapper.getAllUsers(connectionPool);
             ctx.attribute("customersList", customersList);
             ctx.render("customer.html");
         } catch (DatabaseException e) {
+            //If unsuccessful, an error message will be sent
             ctx.status(500).result("An error occurred while fetching customers: " + e.getMessage());
         }
     }
