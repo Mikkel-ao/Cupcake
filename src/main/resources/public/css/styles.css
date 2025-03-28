@@ -69,8 +69,8 @@ body {
 
 .rounded-btn {
     border: none;
-    background-color: white;
-    color: black;
+    background-color: #ecaf55;
+    color: white;
     padding: 8px;
     text-align: center;
     text-decoration: none;
@@ -156,3 +156,19 @@ body {
     display: flex;
 }
 
+.dropdown select {
+    background-color: #ecaf55;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Style labels */
+.dropdown label {
+    font-weight: bold;
+    color: white;
+    display: block;
+    margin-bottom: 5px;
+}

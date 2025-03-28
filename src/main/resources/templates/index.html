@@ -13,7 +13,8 @@
         <img class="logo" src="/public/images/mums_filibaba.png"
              th:src="@{/images/mums_filibaba.png}" alt="cupcakelogo">
     </a>
-    <h1 style="color: white;">Olsker Cupcakes</h1>
+
+
 </header>
 
 <div th:if="${errorMessage}" style="color: red;">
@@ -46,7 +47,7 @@
 <form action="/add-to-basket" method="post" th:action="@{/add-to-basket}">
     <div class="dropdown">
         <label for="bottom">Vælg bund:</label>
-        <select name="bottom" id="bottom" required>
+        <select name="bottom" id="bottom" class="rounded-select" required>
             <option value="Chokolade">Chokolade</option>
             <option value="Vanilje">Vanilje</option>
             <option value="Muskatnød">Muskatnød</option>
@@ -57,7 +58,7 @@
 
     <div class="dropdown">
         <label for="topping">Vælg topping:</label>
-        <select name="topping" id="topping" required>
+        <select name="topping" id="topping" class="rounded-select" required>
             <option value="Chokolade">Chokolade</option>
             <option value="Blåbær">Blåbær</option>
             <option value="Hindbær">Hindbær</option>
@@ -72,17 +73,18 @@
 
     <div class="dropdown">
         <label for="quantity">Vælg antal:</label>
-        <select name="quantity" id="quantity" required>
+        <select name="quantity" id="quantity" class="rounded-select" required>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4">3</option>
-            <option value="5">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
         </select>
     </div>
 
     <button class="rounded-btn" type="submit">Læg i kurv</button>
 </form>
+
 
 <div class="email-on-page">
     <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
