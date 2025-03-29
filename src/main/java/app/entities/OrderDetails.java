@@ -1,7 +1,5 @@
 package app.entities;
 
-//TODO: The name of the class should be in singularis!
-
 public class OrderDetails {
     private int orderDetailId;
     private int orderId;
