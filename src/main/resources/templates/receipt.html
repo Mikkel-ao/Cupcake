@@ -14,10 +14,10 @@
 <p>Ordrer ID: <span th:text="${orderId}"></span></p>
 <ul>
     <li th:each="item : ${orderDetails}">
-        <span th:text="'Bottom: ' + ${item.bottomName}"></span> -
+        <span th:text="'Bund: ' + ${item.bottomName}"></span> -
         <span th:text="'Topping: ' + ${item.toppingName}"></span> -
-        <span th:text="'Quantity: ' + ${item.quantity}"></span> -
-        <span th:text="'Price: $' + ${item.price}"></span>
+        <span th:text="'Antal: ' + ${item.quantity}"></span> -
+        <span th:text="'Pris: ' + ${item.price} + ' kr.'"></span>
     </li>
 </ul>
 <a href="/" th:href="@{/}">

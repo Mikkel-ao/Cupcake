@@ -42,6 +42,30 @@ public class BasketItemDTO {
         return price;
     }
 
+    public void setBottomId(int bottomId) {
+        this.bottomId = bottomId;
+    }
+
+    public void setBottomName(String bottomName) {
+        this.bottomName = bottomName;
+    }
+
+    public void setToppingId(int toppingId) {
+        this.toppingId = toppingId;
+    }
+
+    public void setToppingName(String toppingName) {
+        this.toppingName = toppingName;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return quantity + " cupcake(s) with bottom " + bottomName + " and topping " + toppingName + " - Price: " + price;
