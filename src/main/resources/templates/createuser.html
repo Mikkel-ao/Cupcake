@@ -5,27 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 
-<body>
+<body class="background-color">
 <div class="page-container">
     <header>
-        <a href="index.html" th:href="@{/}">
-            <img class="logo" src="../public/images/cupcakelogo.png" th:src="@{/images/cupcakelogo.png}"
-                 alt="Cup cake logo">
+        <br>
+        <a href="login.html" th:href="@{/login}">
+            <img class="logo" src="/public/images/olsker_cupcakes_200x200.png"
+                 th:src="@{/images/olsker_cupcakes_200x200.png}" alt="cupcakelogo">
         </a>
     </header>
 
-    <h1>Here you can create a profile</h1>
-
     <form class="generic-form" method="post">
-        <input type="email" name="email" placeholder="Enter email" required/>
-        <input type="password" name="password1" placeholder=" Enter password" required/>
-        <input type="password" name="password2" placeholder=" Enter password again" required/>
-        <button type="submit" formaction="/createuser">Create profile</button>
+        <input type="email" name="email" placeholder="Indtast email" required/>
+        <input type="password" name="password1" placeholder="Indtast kodeord" required/>
+        <input type="password" name="password2" placeholder="Gentag kodeord" required/>
+        <button type="submit" formaction="/createuser">Opret bruger</button>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
 
     <a href="/" th:href="@{/}">
-        <button>Tilbage til forsiden</button>
+        <button class="rounded-btn">Tilbage til forsiden</button>
     </a>
 
 </div>

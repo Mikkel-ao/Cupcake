@@ -5,25 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 
-<body>
+<body class="background-color">
 <div class="page-container">
+    <header>
+        <br>
+        <a href="login.html" th:href="@{/login}">
+            <img class="logo" src="/public/images/olsker_cupcakes_200x200.png"
+                 th:src="@{/images/olsker_cupcakes_200x200.png}" alt="cupcakelogo">
+        </a>
+        <br>
+        <br>
+    </header>
     <form class="generic-form" method="post" action="/login">
-        <input type="email" name="email" placeholder="Enter email" required/>
-        <input type="password" name="password" placeholder="Enter password" required/>
-        <button type="submit">Login</button>
+        <input type="email" name="email" placeholder="Indtast email" required/>
+        <input type="password" name="password" placeholder="Indtast kodeord" required/>
+        <button type="submit">Log ind</button>
         <div><p class="error" th:unless="${#strings.isEmpty(message)}" th:text="${message}"></p></div>
     </form>
 
-    <footer>
-        <div class="create-user-form">
+    <footer class="footer-side">
+        <div>
             <a href="createuser.html" th:href="@{/createuser}">
-                <button>Opret bruger</button>
+                <button class="rounded-btn">Opret bruger</button>
             </a>
         </div>
 
         <div>
             <a href="/" th:href="@{/}">
-                <button>Tilbage til forsiden</button>
+                <button class="rounded-btn">Til forsiden</button>
             </a>
         </div>
     </footer>

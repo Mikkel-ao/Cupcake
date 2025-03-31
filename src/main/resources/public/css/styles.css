@@ -23,6 +23,7 @@ h1 {
 .order-table tr:nth-child(even){ /*  hver anden række grå*/
     background-color: silver;
 }
+
 body {
     background-color: white;
 }
@@ -33,7 +34,11 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: grey;
+    background-color: #643483;
+}
+
+.background-color {
+    background-color: #643483;
 }
 
 
@@ -44,7 +49,7 @@ body {
     gap: 10px;
 
 }
-.generic-form [type=text], .generic-form [type=password] {
+.generic-form [type=text], .generic-form [type=email], [type=password] {
     padding: 10px;
     font-size: 1.2rem;
     border: #c3c0d6;
@@ -56,10 +61,25 @@ body {
     font-size: 1.2rem;
     padding: 10px;
     border-radius: 5px;
-    background-color: #535ce1;
+    background-color: #ecaf55;
     color: white;
     border: #c3c0d6;
     border: none;
+}
+
+.rounded-btn {
+    border: none;
+    background-color: #ecaf55;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+
 }
 
 
@@ -115,4 +135,40 @@ body {
     background-color: silver;
 }
 
+.logo-box {
+    width: 30%;
+    height: 200px;
+    border: 5px dashed #f7a239;
+}
 
+.logo-img {
+    width: 100%; /* takes the 100 % width of its container (.box div)*/
+    height: 100%; /* takes the 100 % height of its container (.box div)*/
+}
+
+.footer-side {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between buttons */
+}
+
+.footer div{
+    display: flex;
+}
+
+.dropdown select {
+    background-color: #ecaf55;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Style labels */
+.dropdown label {
+    font-weight: bold;
+    color: white;
+    display: block;
+    margin-bottom: 5px;
+}

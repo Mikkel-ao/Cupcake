@@ -6,13 +6,15 @@
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 
-<body>
+
+<body class="background-color">
 <header>
     <a href="index.html" th:href="@{/}">
-        <img class="logo" src="/public/images/cupcakelogo.png"
-             th:src="@{/images/cupcakelogo.png}" alt="cupcakelogo">
+        <img class="logo" src="/public/images/mums_filibaba.png"
+             th:src="@{/images/mums_filibaba.png}" alt="cupcakelogo">
     </a>
-    <h1>Olsker Cupcakes</h1>
+
+
 </header>
 
 <div th:if="${errorMessage}" style="color: red;">
@@ -20,32 +22,32 @@
 </div>
 
 <a href="/orders" th:href="@{/orders}">
-    <button>Ordrer</button>
+    <button class="rounded-btn">Ordrer</button>
 </a>
 
 <a href="/customer" th:href="@{/customer}" th:if="${session.role == 'admin'}">
-    <button>Kunder</button>
+    <button class="rounded-btn">Kunder</button>
 </a>
 
 <a href="/login" th:href="@{/login}" th:if="${session.currentUser == null}">
-    <button>Log ind / Opret</button>
+    <button class="rounded-btn">Log ind / Opret</button>
 </a>
 
 <a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}">
-    <button>Log ud</button>
+    <button class="rounded-btn">Log ud</button>
 </a>
 
 <a href="/checkout" th:href="@{/checkout}">
-    <button>Indkøbskurv</button>
+    <button class="rounded-btn">Indkøbskurv</button>
 </a>
 
-<h2>Velkommen ombord</h2>
-<p>Øens bedste cupcakes. Vælg og bestil her: </p>
+<h2 style="color: white;">Velkommen ombord</h2>
+<p style="color: white;">Øens bedste cupcakes. Vælg og bestil her: </p>
 
 <form action="/add-to-basket" method="post" th:action="@{/add-to-basket}">
     <div class="dropdown">
         <label for="bottom">Vælg bund:</label>
-        <select name="bottom" id="bottom" required>
+        <select name="bottom" id="bottom" class="rounded-select" required>
             <option value="Chokolade">Chokolade</option>
             <option value="Vanilje">Vanilje</option>
             <option value="Muskatnød">Muskatnød</option>
@@ -56,7 +58,7 @@
 
     <div class="dropdown">
         <label for="topping">Vælg topping:</label>
-        <select name="topping" id="topping" required>
+        <select name="topping" id="topping" class="rounded-select" required>
             <option value="Chokolade">Chokolade</option>
             <option value="Blåbær">Blåbær</option>
             <option value="Hindbær">Hindbær</option>
@@ -71,18 +73,18 @@
 
     <div class="dropdown">
         <label for="quantity">Vælg antal:</label>
-        <select name="quantity" id="quantity" required>
+        <select name="quantity" id="quantity" class="rounded-select" required>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4">3</option>
-            <option value="5">3</option>
-
+            <option value="4">4</option>
+            <option value="5">5</option>
         </select>
     </div>
 
-    <button type="submit">Læg i kurv</button>
+    <button class="rounded-btn" type="submit">Læg i kurv</button>
 </form>
+
 
 <div class="email-on-page">
     <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
