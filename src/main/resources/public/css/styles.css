@@ -6,6 +6,11 @@ h1 {
     font-size: 3rem;
 }
 
+.index-container {
+    display: flex;
+    gap: 10px; /* Adjust as needed */
+}
+
 
 .order-table{
     border-collapse: collapse; /* Vi laver border imellem hvert felt senere, og derfor vil der komme dobbelt nogle steder hvis denne ikke er væk */

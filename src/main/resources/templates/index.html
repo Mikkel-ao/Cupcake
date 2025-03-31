@@ -7,83 +7,86 @@
 </head>
 
 
-<body class="background-color">
-<header>
+<body>
+<header class="page-container">
     <a href="index.html" th:href="@{/}">
         <img class="logo" src="/public/images/mums_filibaba.png"
              th:src="@{/images/mums_filibaba.png}" alt="cupcakelogo">
     </a>
-
-
 </header>
 
 <div th:if="${errorMessage}" style="color: red;">
     <p th:text="${errorMessage}"></p>
+
 </div>
 
+<div class="">
+<div class="index-container">
 <a href="/orders" th:href="@{/orders}">
     <button class="rounded-btn">Ordrer</button>
-</a>
+    </a>
 
-<a href="/customer" th:href="@{/customer}" th:if="${session.role == 'admin'}">
-    <button class="rounded-btn">Kunder</button>
-</a>
+    <a href="/customer" th:href="@{/customer}" th:if="${session.role == 'admin'}">
+        <button class="rounded-btn">Kunder</button>
+    </a>
 
-<a href="/login" th:href="@{/login}" th:if="${session.currentUser == null}">
-    <button class="rounded-btn">Log ind / Opret</button>
-</a>
+    <a href="/login" th:href="@{/login}" th:if="${session.currentUser == null}">
+        <button class="rounded-btn">Log ind / Opret</button>
+    </a>
 
-<a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}">
-    <button class="rounded-btn">Log ud</button>
-</a>
+    <a th:if="${session.currentUser != null}" href="index.html" th:href="@{/logout}">
+        <button class="rounded-btn">Log ud</button>
+        </a>
 
-<a href="/checkout" th:href="@{/checkout}">
-    <button class="rounded-btn">Indkøbskurv</button>
-</a>
+    <a href="/checkout" th:href="@{/checkout}">
+            <button class="rounded-btn">Indkøbskurv</button>
+    </a>
 
-<h2 style="color: white;">Velkommen ombord</h2>
-<p style="color: white;">Øens bedste cupcakes. Vælg og bestil her: </p>
+</div>
+    <h2 style="color: black;">Velkommen ombord</h2>
+    <p style="color: black;">Øens bedste cupcakes. Vælg og bestil her: </p>
 
-<form action="/add-to-basket" method="post" th:action="@{/add-to-basket}">
-    <div class="dropdown">
-        <label for="bottom">Vælg bund:</label>
-        <select name="bottom" id="bottom" class="rounded-select" required>
-            <option value="Chokolade">Chokolade</option>
-            <option value="Vanilje">Vanilje</option>
-            <option value="Muskatnød">Muskatnød</option>
-            <option value="Pistacie">Pistacie</option>
-            <option value="Mandel">Mandel</option>
-        </select>
-    </div>
+    <form action="/add-to-basket" method="post" th:action="@{/add-to-basket}">
+        <div class="dropdown">
+            <label for="bottom">Vælg bund:</label>
+            <select name="bottom" id="bottom" class="rounded-select" required>
+                <option value="Chokolade">Chokolade</option>
+                <option value="Vanilje">Vanilje</option>
+                <option value="Muskatnød">Muskatnød</option>
+                <option value="Pistacie">Pistacie</option>
+                <option value="Mandel">Mandel</option>
+            </select>
+        </div>
 
-    <div class="dropdown">
-        <label for="topping">Vælg topping:</label>
-        <select name="topping" id="topping" class="rounded-select" required>
-            <option value="Chokolade">Chokolade</option>
-            <option value="Blåbær">Blåbær</option>
-            <option value="Hindbær">Hindbær</option>
-            <option value="Sprød">Sprød</option>
-            <option value="Jordbær">Jordbær</option>
-            <option value="Rom/Rosin">Rom/Rosin</option>
-            <option value="Appelsin">Appelsin</option>
-            <option value="Citron">Citron</option>
-            <option value="Blåskimmelost">Blåskimmelost</option>
-        </select>
-    </div>
+        <div class="dropdown">
+            <label for="topping">Vælg topping:</label>
+            <select name="topping" id="topping" class="rounded-select" required>
+                <option value="Chokolade">Chokolade</option>
+                <option value="Blåbær">Blåbær</option>
+                <option value="Hindbær">Hindbær</option>
+                <option value="Sprød">Sprød</option>
+                <option value="Jordbær">Jordbær</option>
+                <option value="Rom/Rosin">Rom/Rosin</option>
+                <option value="Appelsin">Appelsin</option>
+                <option value="Citron">Citron</option>
+                <option value="Blåskimmelost">Blåskimmelost</option>
+            </select>
+        </div>
 
-    <div class="dropdown">
-        <label for="quantity">Vælg antal:</label>
-        <select name="quantity" id="quantity" class="rounded-select" required>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-    </div>
+        <div class="dropdown">
+            <label for="quantity">Vælg antal:</label>
+            <select name="quantity" id="quantity" class="rounded-select" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
 
-    <button class="rounded-btn" type="submit">Læg i kurv</button>
-</form>
+        <button class="rounded-btn" type="submit">Læg i kurv</button>
+    </form>
+</div>
 
 
 <div class="email-on-page">
