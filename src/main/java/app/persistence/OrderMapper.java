@@ -241,7 +241,7 @@ public class OrderMapper {
 
         //Sql queries depending on the "role" of the logged-in user given in the argument!
         if("admin".equals(role)){
-            sql = "SELECT orders.order_id, users.email, orders.order_date,  SUM(DISTINCT order_details.cupcake_price * order_details.quantity) AS total_price\n" +
+            sql = "SELECT orders.order_id, users.email, orders.order_date,  SUM(order_details.cupcake_price) AS total_price\n" +
                     "                    FROM users\n" +
                     "                    JOIN orders ON orders.user_id = users.user_id\n" +
                     "                    JOIN order_details ON orders.order_id = order_details.order_id\n" +

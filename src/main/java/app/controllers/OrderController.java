@@ -261,9 +261,24 @@ public class OrderController {
             //Calculating totalprice
             double totalPrice = (bottomPrice + toppingPrice) * quantity;
 
-            //Creating instances of our DTO and adding them to a list
-            BasketItemDTO basketItem = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, totalPrice);
-            basket.add(basketItem);
+            //Iterating through the items, adding the quantity and price, if it already exists in the basket
+            boolean itemExists = false;
+            for (BasketItemDTO item : basket) {
+                if (item.getBottomId() == bottomId && item.getToppingId() == toppingId) {
+                    item.setQuantity(item.getQuantity() + quantity);
+                    item.setPrice(item.getPrice() + totalPrice);
+                    itemExists = true;
+                    break;
+                }
+            }
+
+            //Creating instances of our DTO and adding them to a list, if they dont already exist
+            if (!itemExists) {
+                BasketItemDTO basketItem = new BasketItemDTO(bottomId, bottomName, toppingId, toppingName, quantity, totalPrice);
+                basket.add(basketItem);
+            }
+
+
             //Passing along the list and keep the user on home page
             ctx.sessionAttribute("basket", basket);
             ctx.redirect("/");
