@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Kvittering</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<title>Kvittering</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+
+
+<header>
+    <div class="email-on-page">
+    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
+    Email</span>
+    </div>
+    <a href="/" th:href="@{/}">
+        <button class="rounded-btn">Tilbage til forsiden</button>
+    </a>
+
+
+</header>
+
 <h1>Kvittering</h1>
 <h2>Tak for at handle hos Olsker!</h2>
 
@@ -15,21 +26,32 @@
 </div>
 
 <p>Ordrer ID: <span th:text="${orderId}"></span></p>
-<ul>
-    <li th:each="item : ${orderDetails}">
-        <span th:text="'Bund: ' + ${item.bottomName}"></span> -
-        <span th:text="'Topping: ' + ${item.toppingName}"></span> -
-        <span th:text="'Antal: ' + ${item.quantity}"></span> -
-        <span th:text="'Pris: ' + ${item.price} + ' kr.'"></span>
-    </li>
-</ul>
-<a href="/" th:href="@{/}">
-    <button>Tilbage til forsiden</button>
-</a>
 
-<div class="email-on-page">
-    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
-    Dette er min email på hver side</span>
-</div>
+<body style="background-color:#D8BFD8;">
+<form class="generic-form" method="post">
+    <table class="customer-table">
+    <thead>
+        <tr>
+            <th>Bund</th>
+            <th>Topping</th>
+            <th>Antal</th>
+            <th>Total pris</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${orderDetails}">
+        <td th:text="${item.bottomName}"></td>
+        <td th:text="${item.toppingName}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.price}"></td>
+    </tr>
+    </tbody>
+    </table>
+</form>
+
+<h2><strong>Ordre total: </strong>
+    <span th:text="${totalPrice}"></span>
+</h2>
+
 </body>
 </html>

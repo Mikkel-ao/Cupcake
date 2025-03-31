@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Checkout</title>
-</head>
-<body>
-<a href="/login" th:href="@{/login}" th:if="${session.currentUser == null}"><button>Login / Opret</button></a>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<title>Cupcake</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+
+<header>
+    <div class="email-on-page">
+    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
+    Email</span>
+    </div>
+    <br>
+
+    <div>
+        <a href="index.html" th:href="@{/index}">
+            <button class="rounded-btn">Tilbage til forsiden</button>
+        </a>
+        <a href="/login" th:href="@{/login}" th:if="${session.currentUser == null}">
+            <button class="rounded-btn">Login / Opret</button>
+        </a>
+    </div>
+</header>
+
+<body style="background-color:#D8BFD8;">
 
 <h1>Din Indkøbskurv</h1>
 
@@ -13,35 +30,45 @@
     <p th:text="${errorMessage}"></p>
 </div>
 
-<ul>
-    <li th:each="item : ${basket}">
-        <span th:text="'Bund: ' + ${item.bottomName}"></span>
-        <span th:text="'Topping: ' + ${item.toppingName}"></span>
-        <span th:text="'Antal: ' + ${item.quantity}"></span>
-        <span th:text="'Pris: ' + ${item.price}"></span>
-        <form method="post">
-            <button type="submit" th:formaction="@{/removeitem(bottomId=${item.bottomId}, toppingId=${item.toppingId})}">Fjern</button>
-        </form>
-    </li>
-</ul>
 
-<p><strong>Ordre total: </strong>
+<form class="generic-form" method="post">
+    <table class="order-table">
+        <thead>
+        <tr>
+            <th>Bund</th>
+            <th>Topping</th>
+            <th>Antal</th>
+            <th>Total pris</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${basket}">
+            <td th:text="${item.bottomName}"></td>
+            <td th:text="${item.toppingName}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td th:text="${item.price}"></td>
+            <td>
+                <form method="post">
+                    <button type="submit" th:formaction="@{/removeitem(bottomId=${item.bottomId}, toppingId=${item.toppingId})}">Fjern</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+
+<h2><strong>Ordre total: </strong>
     <span th:text="${totalPrice}"></span>
-</p>
-
-<a href="/" th:href="@{/}"><button>Tilbage</button></a>
+</h2>
 
 <form method="post">
-    <button type="submit" formaction="/cancel-order" th:formaction="@{/cancel-order}">Annullér ordrer</button>
+    <button class="rounded-btn" type="submit" formaction="/cancel-order" th:formaction="@{/cancel-order}">Ryd indkøbskurv</button>
 </form>
 
 <form method="post">
-    <button type="submit" formaction="/checkout" th:formaction="@{/checkout}">Køb</button>
+    <button class="rounded-btn" type="submit" formaction="/checkout" th:formaction="@{/checkout}">Køb</button>
 </form>
 
-<div class="email-on-page">
-    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
-    Dette er min email på hver side</span>
-</div>
 </body>
 </html>
