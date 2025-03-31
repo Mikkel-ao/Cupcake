@@ -5,12 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
-<body>
 
-<a href="/" th:href="@{/}">
-    <button>Tilbage til forsiden</button>
-</a>
 
+<header>
+    <div class="email-on-page">
+    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
+    Email</span>
+    </div>
+    <br>
+
+    <a href="index.html" th:href="@{/index}">
+        <button class="rounded-btn">Tilbage til forsiden</button>
+    </a>
+
+
+</header>
+
+<body style="background-color:#D8BFD8;">
 <form class="generic-form" method="post">
     <table class="customer-table">
         <thead>
@@ -29,11 +40,6 @@
         </tbody>
     </table>
 </form>
-
-<div class="email-on-page">
-    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
-    Dette er min email på hver side</span>
-</div>
 
 </body>
 </html>

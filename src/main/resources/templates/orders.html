@@ -7,15 +7,25 @@
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 
-<div>
-    <a href="index.html" th:href="@{/index}"> Back to front page </a>
-</div>
+<header>
+    <div class="email-on-page">
+    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
+    Email</span>
+    </div>
+    <br>
+
+    <a href="index.html" th:href="@{/index}">
+    <button class="rounded-btn">Tilbage til forsiden</button>
+    </a>
+
+
+</header>
 
 <div th:if="${errorMessage}" style="color: red;">
     <p th:text="${errorMessage}"></p>
 </div>
 
-<body>
+<body style="background-color:#D8BFD8;">
 <form class="generic-form" method="post">
     <table class="order-table">
         <thead>
@@ -43,12 +53,6 @@
         </tbody>
     </table>
 </form>
-
-<div class="email-on-page">
-    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
-    Dette er min email på hver side</span>
-</div>
-
 
 </body>
 </html>

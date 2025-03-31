@@ -2,32 +2,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Ordredetaljer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
-<body>
+
+<header>
+    <div class="email-on-page">
+    <span th:if="${session.email != null}" th:text="${session.email}" class="email-address">
+    Email</span>
+    </div>
+    <br>
+    <a href="/orders" th:href="@{/orders}">
+        <button class="rounded-btn">Tilbage til alle ordrer</button>
+    </a>
+
+</header>
+
+
+<body style="background-color:#D8BFD8;">
 <h1>Ordredetaljer #<span th:text="${orderId}"></span></h1>
 
 <div th:if="${errorMessage}" style="color: red;">
     <p th:text="${errorMessage}"></p>
 </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>Bund</th>
-        <th>Topping</th>
-        <th>Antal</th>
-        <th>Pris</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item : ${orderDetails}">
-        <td th:text="${item.bottomName}"></td>
-        <td th:text="${item.toppingName}"></td>
-        <td th:text="${item.quantity}"></td>
-        <td th:text="${item.price}"></td>
-    </tr>
-    </tbody>
-</table>
-<a href="/orders" th:href="@{/orders}">Tilbage til alle ordrer</a>
+<form class="generic-form" method="post">
+    <table class="order-table">
+        <thead>
+        <tr>
+            <th>Bund</th>
+            <th>Topping</th>
+            <th>Antal</th>
+            <th>Pris</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${orderDetails}">
+            <td th:text="${item.bottomName}"></td>
+            <td th:text="${item.toppingName}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td th:text="${item.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
 </body>
 </html>
