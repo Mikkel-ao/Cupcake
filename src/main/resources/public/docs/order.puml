@@ -1,0 +1,16 @@
+@startuml
+' Initial state
+[*] --> EmptyCart
+
+' States
+EmptyCart --> CartPage : "Go to Cart"
+CartPage --> ItemAdded : "Add Item to Cart"
+ItemAdded --> CartPage : "Go to Cart"
+ItemAdded --> CheckoutPage : "Proceed to Checkout"
+CartPage --> EmptyCart : "Clear Cart"
+
+CheckoutPage --> ReceiptPage : "Complete Purchase"
+CheckoutPage --> CartPage : "Back to Cart"
+ReceiptPage --> [*] : "Order Complete"
+
+@enduml

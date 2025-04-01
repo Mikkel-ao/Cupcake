@@ -1,6 +1,6 @@
 @startuml
 ' Layout direction
-left to right direction
+top to bottom direction
 
 ' Define classes
 class "index.html (Forsiden)" as Index #33AAFF
@@ -15,23 +15,17 @@ class "receipt.html" as Receipt #FF7733
 ' Navigation
 Index --> Login : "Login / Opret"
 Index --> Orders : "Ordrer"
-Orders --> Orders : "Slet ordre (Admin)"
-Index --> Customers : "Kunder"
-note left of Customers : Admin kan tilgå
-Customers --> Index : "Tilbage til forsiden"
+Index --> Customers : "Kunder (Admin)"
 
 Index --> Cart : "Se Indkøbskurv"
-
+note right of Index : Tilbage til forsiden tilgængelig på alle sider
 Login --> Register : "Opret bruger"
-Register --> Index : "Tilbage til forsiden"
 
 Orders --> OrderDetails : "Se ordredetaljer"
-Orders --> Index : "Tilbage til forsiden"
+Orders --> Orders : "Slet ordre (Admin)"
 OrderDetails --> Orders : "Tilbage til ordre"
 
 Cart --> Receipt : "Køb"
 Cart --> Cart : "Fjern vare"
-
-Receipt --> Index : "Tilbage til forsiden"
 
 @enduml
