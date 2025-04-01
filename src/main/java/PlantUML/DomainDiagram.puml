@@ -1,0 +1,100 @@
+@startuml
+Package config {
+    class SessionConfig {
+    }
+    class ThymeleafConfig {
+    }
+}
+
+Package controllers {
+    class OrderController {
+    }
+    class UserController {
+    }
+}
+
+Package DTO {
+    class BasketitemDTO {
+        - bottomId: int
+        - toppingId: int
+        - quantity: int
+        - price: double
+    }
+    class UserAndOrderDTO {
+        - userId: int
+        - orderId: int
+    }
+    class UserDTO {
+        - userId: int
+        - email: String
+    }
+}
+
+Package entities {
+    class CupcakeButtom {
+        - bottomId: int
+        - flavor: String
+        - price: double
+    }
+    class CupcakeTop {
+        - topId: int
+        - flavor: String
+        - price: double
+    }
+    class Order {
+        - orderId: int
+        - userId: int
+        - orderDate: Date
+    }
+    class OrderDetails {
+        - orderDetailId: int
+        - cupcakeId: int
+        - quantity: int
+    }
+    class User {
+        - userId: int
+        - password: String
+        - email: String
+        - role: String
+        - double: balance
+    }
+}
+
+Package exceptions {
+    class DatabaseException {
+        + errorCode: int
+        + errorMessage: String
+    }
+}
+
+Package persistence {
+    class ConnectionPool {
+    }
+    class OrderMapper {
+
+    }
+    class UserMapper {
+
+    }
+}
+
+class Main {
+    + main(args: String[])
+}
+
+
+User -- Order : "places"
+Order -- OrderDetails : "contains"
+CupcakeTop -- OrderDetails : "top of cupcake"
+CupcakeButtom -- OrderDetails : "bottom of cupcake"
+OrderController ..> OrderMapper : "uses"
+UserController ..> UserMapper : "uses"
+BasketitemDTO ..> CupcakeTop : "relates to"
+BasketitemDTO ..> CupcakeButtom : "relates to"
+ConnectionPool -- DatabaseException : "throws"
+UserDTO ..> UserMapper : "uses"
+UserAndOrderDTO ..> OrderMapper : "uses"
+BasketitemDTO ..> OrderController : "uses"
+Main ..> ThymeleafConfig : "configures"
+Main ..> SessionConfig : "configures"
+@enduml
