@@ -23,15 +23,17 @@ Package DTO {
     class UserAndOrderDTO {
         - userId: int
         - orderId: int
+        - orderDate: Timestamp
     }
     class UserDTO {
         - userId: int
         - email: String
+        - balance: double
     }
 }
 
 Package entities {
-    class CupcakeButtom {
+    class CupcakeBottom {
         - bottomId: int
         - flavor: String
         - price: double
@@ -86,11 +88,11 @@ class Main {
 User -- Order : "places"
 Order -- OrderDetails : "contains"
 CupcakeTop -- OrderDetails : "top of cupcake"
-CupcakeButtom -- OrderDetails : "bottom of cupcake"
+CupcakeBottom -- OrderDetails : "bottom of cupcake"
 OrderController ..> OrderMapper : "uses"
 UserController ..> UserMapper : "uses"
 BasketitemDTO ..> CupcakeTop : "relates to"
-BasketitemDTO ..> CupcakeButtom : "relates to"
+BasketitemDTO ..> CupcakeBottom : "relates to"
 ConnectionPool -- DatabaseException : "throws"
 UserDTO ..> UserMapper : "uses"
 UserAndOrderDTO ..> OrderMapper : "uses"
