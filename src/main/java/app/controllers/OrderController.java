@@ -204,6 +204,7 @@ public class OrderController {
             //Passing along attributes and render receipt
             ctx.attribute("orderId", orderId);
             ctx.attribute("orderDetails", orderDetails);
+            ctx.attribute("totalPrice", totalPrice);
 
             ctx.render("receipt.html");
         } catch (DatabaseException e) {
