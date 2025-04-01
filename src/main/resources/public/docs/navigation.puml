@@ -1,0 +1,36 @@
+@startuml
+' Layout direction
+left to right direction
+
+' Define classes
+class "index.html (Forsiden)" as Home #33AAFF
+class "login.html" as Login #FF7733
+class "createuser.html" as Register #FF7733
+class "customers.html" as Customers #FF7733
+class "orders.html" as Orders #AACC77
+class "orderdetails.html" as OrderDetails #AACC77
+class "checkout.html" as Cart #FF7733
+class "receipt.html" as Receipt #FF7733
+
+' Navigation
+Home --> Login : "Login / Opret"
+Home --> Orders : "Ordrer"
+Home --> Customers : "Kunder"
+note left of Customers : Admin only
+
+Home --> Cart : "Se Indkøbskurv"
+
+Login --> Register : "Opret bruger"
+Login --> Home : "Tilbage til forsiden"
+Register --> Home : "Tilbage til forsiden"
+
+Orders --> OrderDetails : "Se ordredetaljer"
+OrderDetails --> Orders : "Tilbage til ordre"
+
+Cart --> Home : "Tilbage til forsiden"
+Cart --> Receipt : "Køb"
+Cart --> Cart : "Fjern vare"
+
+Receipt --> Home : "Tilbage til forsiden"
+
+@enduml
