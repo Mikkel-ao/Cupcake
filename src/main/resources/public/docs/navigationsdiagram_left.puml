@@ -1,0 +1,38 @@
+@startuml
+' Initial state
+left to right direction
+[*] --> Index
+
+' state to allow naming and coloring
+state "index.html (Forsiden)" as Index #Application
+state "login.html" as Login #Aquamarine
+state "createuser.html" as Register #Aquamarine
+state "customers.html" as Customers #Coral
+state "orders.html" as Orders #Gold
+state "orderdetails.html" as OrderDetails #Gold
+state "checkout.html" as Checkout #Lightpink
+state "receipt.html" as Receipt #Lightpink
+
+
+' States
+Index --> Login : "Login / Opret"
+Index --> Orders : "Ordrer"
+Orders --> Orders : "Slet ordre (Admin)"
+Index --> Customers : "Kunder"
+
+note top of Index : Alle side kan gå tilbage til index
+note left of Customers : Admin kan tilgå
+
+Index --> Checkout : "Se Indkøbskurv"
+
+Login --> Register : "Opret bruger"
+
+Orders --> OrderDetails : "Se ordredetaljer"
+OrderDetails --> Orders : "Tilbage til ordre"
+
+Checkout --> Receipt : "Køb"
+Checkout --> Checkout : "Fjern vare / Ryd kurv"
+
+
+
+@enduml
