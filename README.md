@@ -1,4 +1,9 @@
-# Cupcake
+
+# Gruppens medlemmer
+Benjamin, Mikkel, Philip, Valdemar (Klasse A, Team 1)
+Github: b-rino, Mikkel-ao, Phils1993, V2S2P
+
+# Kodestandard for projektet
 Al javakode er i camelCase
 Alle tabeller i databasen navngives i snake_case
 Alt navngives på engelsk
